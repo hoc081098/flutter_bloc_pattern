@@ -37,17 +37,17 @@
             </list>
           </value>
         </entry>
-        <entry key="distinct_value_connectable_observable">
-          <value>
-            <list>
-              <option value="C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/distinct_value_connectable_observable-1.0.0+1/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="flutter">
           <value>
             <list>
               <option value="C:/flutter/flutter/packages/flutter/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_bloc_pattern">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../lib" />
             </list>
           </value>
         </entry>
@@ -69,13 +69,6 @@
           <value>
             <list>
               <option value="C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.1.6/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="mockito">
-          <value>
-            <list>
-              <option value="C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/mockito-4.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -178,10 +171,8 @@
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.1.2/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.14.11/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.2/lib" />
-      <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/distinct_value_connectable_observable-1.0.0+1/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.3+1/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.1.6/lib" />
-      <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/mockito-4.0.0/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.6.2/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.4.0/lib" />
       <root url="file://C:/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.0.1/lib" />
@@ -197,6 +188,7 @@
       <root url="file://C:/flutter/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://C:/flutter/flutter/packages/flutter/lib" />
       <root url="file://C:/flutter/flutter/packages/flutter_test/lib" />
+      <root url="file://$PROJECT_DIR$/../lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
