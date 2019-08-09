@@ -1,3 +1,7 @@
+## [1.0.0] - 10 August 2019
+
+* Add `RxStreamBuilder`
+
 ## [0.0.1+1] - 8 February 2019
 
 * Add example

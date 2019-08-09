@@ -1,6 +1,7 @@
 library flutter_bloc_pattern;
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Base class for all bloc
 abstract class BaseBloc {
@@ -118,5 +119,65 @@ class BlocProviderError extends Error {
 If none of these solutions work, please file a bug at:
 https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       ''';
+  }
+}
+
+/// Rx stream builder that will pre-populate the streams initial data if the
+/// given stream is an rx obseravable that holds the streams current value such
+/// as a [ValueObservable] [BehaviorSubject] or a [ReplayObservable] [ReplaySubject]
+class RxStreamBuilder<T> extends StatelessWidget {
+  /// The build strategy currently used by this builder.
+  final AsyncWidgetBuilder<T> builder;
+
+  /// The asynchronous computation to which this builder is currently connected,
+  /// possibly null. When changed, the current summary is updated using
+  /// [afterDisconnected], if the previous stream was not null, followed by
+  /// [afterConnected], if the new stream is not null.
+  final Stream<T> stream;
+
+  /// The data that will be used to create the initial snapshot.
+  ///
+  /// Providing this value (presumably obtained synchronously somehow when the
+  /// [Stream] was created) ensures that the first frame will show useful data.
+  /// Otherwise, the first frame will be built with the value null, regardless
+  /// of whether a value is available on the stream: since streams are
+  /// asynchronous, no events from the stream can be obtained before the initial
+  /// build.
+  final T _initialData;
+
+  RxStreamBuilder({
+    Key key,
+    @required this.builder,
+    @required this.stream,
+    T initialData,
+  })  : assert(builder != null),
+        assert(stream != null),
+        _initialData = getInitialData(initialData, stream),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<T>(
+      initialData: _initialData,
+      builder: builder,
+      stream: stream,
+    );
+  }
+
+  @visibleForTesting
+  static T getInitialData<T>(T initialData, Stream<T> stream) {
+    if (initialData != null) {
+      return initialData;
+    }
+    if (stream is ValueObservable<T> && stream.hasValue) {
+      return stream.value;
+    }
+    if (stream is ReplayObservable<T>) {
+      final values = stream.values;
+      if (values.isNotEmpty) {
+        return values.last;
+      }
+    }
+    return null;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MockBloc extends Mock implements BaseBloc {}
 
@@ -75,6 +76,61 @@ void main() {
       await tester.pumpWidget(widget);
       await tester.pumpWidget(Container());
       verify(bloc.dispose()).called(1);
+    });
+  });
+
+  group('RxStreamBuilder', () {
+    test('Get initial data', () {
+      //
+      //
+      //
+
+      expect(
+        RxStreamBuilder.getInitialData(1, Stream.empty()),
+        1,
+      );
+
+      expect(
+        RxStreamBuilder.getInitialData(1, BehaviorSubject.seeded(2)),
+        1,
+      );
+
+      //
+      //
+      //
+
+      expect(
+        RxStreamBuilder.getInitialData(null, BehaviorSubject.seeded(2)),
+        2,
+      );
+
+      expect(
+        RxStreamBuilder.getInitialData(
+          null,
+          BehaviorSubject<int>()..addError('Error'),
+        ),
+        isNull,
+      );
+
+      //
+      //
+      //
+
+      expect(
+        RxStreamBuilder.getInitialData(
+          null,
+          ReplaySubject(maxSize: 2)..add(1)..add(2)..add(3)..add(4),
+        ),
+        4,
+      );
+
+      expect(
+        RxStreamBuilder.getInitialData(
+          null,
+          ReplaySubject(maxSize: 2),
+        ),
+        isNull,
+      );
     });
   });
 }

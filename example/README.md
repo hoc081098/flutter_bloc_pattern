@@ -1,26 +1,20 @@
 [Simple example](https://github.com/hoc081098/flutter_bloc_pattern/tree/master/example/counter) a port of the standard "Counter Button" example from Flutter <br>
 
 counter_bloc.dart:
-```
+```dart
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
 //ignore_for_file: close_sinks
 class CounterBloc implements BaseBloc {
-  ///
   /// Inputs
-  ///
   final void Function() increment;
 
-  ///
   /// Outputs
-  ///
   final ValueObservable<int> state;
 
-  ///
   /// Clean up
-  ///
   final void Function() _dispose;
 
   CounterBloc._(
@@ -48,7 +42,7 @@ class CounterBloc implements BaseBloc {
 ```
 
 main.dart:
-```
+```dart
 import 'package:counter/counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -108,9 +102,8 @@ class TextCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CounterBloc>(context);
-    return StreamBuilder<int>(
+    return RxStreamBuilder<int>(
       stream: bloc.state,
-      initialData: bloc.state.value,
       builder: (context, snapshot) {
         return Text(
           '${snapshot.data}',
