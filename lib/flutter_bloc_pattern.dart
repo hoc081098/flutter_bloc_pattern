@@ -143,22 +143,21 @@ class RxStreamBuilder<T> extends StatelessWidget {
   /// of whether a value is available on the stream: since streams are
   /// asynchronous, no events from the stream can be obtained before the initial
   /// build.
-  final T _initialData;
+  final T initialData;
 
   RxStreamBuilder({
     Key key,
     @required this.builder,
     @required this.stream,
-    T initialData,
+    this.initialData,
   })  : assert(builder != null),
         assert(stream != null),
-        _initialData = getInitialData(initialData, stream),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<T>(
-      initialData: _initialData,
+      initialData: getInitialData(initialData, stream),
       builder: builder,
       stream: stream,
     );

@@ -1,6 +1,6 @@
 name: flutter_bloc_pattern
 description: A library that connects Widgets to BLoC
-version: 1.0.0+1
+version: 1.0.1
 author: Petrus Nguyễn Thái Học <hoc081098@gmail.com>
 homepage: https://github.com/hoc081098/flutter_bloc_pattern
 
