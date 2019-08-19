@@ -27,7 +27,7 @@ class MyBloc implements BaseBloc {
 }
 ```
 
-### 4. Consumer BLoC:
+### 4. Consume BLoC:
 ```dart
  final bloc = BlocProvider.of<MyBloc>(context);
  return RxStreamBuilder(
