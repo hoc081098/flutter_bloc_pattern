@@ -52,10 +52,11 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
   /// }
   /// ```
   static T of<T extends BaseBloc>(BuildContext context) {
-    final type = _typeOf<_BlocProviderInherited<T>>();
     final provider =
-        context.inheritFromWidgetOfExactType(type) as _BlocProviderInherited<T>;
-    if (provider == null) throw BlocProviderError(type);
+        context.dependOnInheritedWidgetOfExactType<_BlocProviderInherited<T>>();
+    if (provider == null) {
+      throw BlocProviderError(_typeOf<_BlocProviderInherited<T>>());
+    }
     return provider.bloc;
   }
 }
@@ -123,8 +124,8 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
 }
 
 /// Rx stream builder that will pre-populate the streams initial data if the
-/// given stream is an rx obseravable that holds the streams current value such
-/// as a [ValueObservable] [BehaviorSubject] or a [ReplayObservable] [ReplaySubject]
+/// given stream is an stream that holds the streams current value such
+/// as a [ValueStream] or a [ReplayStream]
 class RxStreamBuilder<T> extends StatelessWidget {
   /// The build strategy currently used by this builder.
   final AsyncWidgetBuilder<T> builder;
@@ -168,10 +169,10 @@ class RxStreamBuilder<T> extends StatelessWidget {
     if (initialData != null) {
       return initialData;
     }
-    if (stream is ValueObservable<T> && stream.hasValue) {
+    if (stream is ValueStream<T> && stream.hasValue) {
       return stream.value;
     }
-    if (stream is ReplayObservable<T>) {
+    if (stream is ReplayStream<T>) {
       final values = stream.values;
       if (values.isNotEmpty) {
         return values.last;

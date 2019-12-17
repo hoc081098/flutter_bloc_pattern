@@ -1,6 +1,10 @@
 # flutter_bloc_pattern
 
-Base class, provider and rxdart builder for BLoC pattern in flutter
+Base class, provider and `rxdart` builder for BLoC pattern in flutter
+
+
+[![Build Status](https://travis-ci.org/hoc081098/distinct_value_connectable_stream.svg?branch=master)](https://travis-ci.org/hoc081098/distinct_value_connectable_stream)
+[![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern.svg)](https://pub.dartlang.org/packages/distinct_value_connectable_stream)
 
 ## Getting Started
 
@@ -8,7 +12,7 @@ Base class, provider and rxdart builder for BLoC pattern in flutter
 
 ```yaml
 dependencies:
-  flutter_bloc_pattern: ^1.0.0
+  flutter_bloc_pattern: ^1.1.0
 ```
 
 ### 2. Now in your Dart code, you can use:
@@ -53,7 +57,7 @@ class CounterBloc implements BaseBloc {
   final void Function() increment;
 
   /// Outputs
-  final ValueObservable<int> state;
+  final ValueStream<int> state;
 
   /// Clean up
   final void Function() _dispose;

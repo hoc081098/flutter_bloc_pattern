@@ -1,3 +1,7 @@
+## 1.1.0 - 17 December 2019
+
+* Update rxdart
+
 ## 1.0.1 - 10 August 2019
 
 * Minor updates
