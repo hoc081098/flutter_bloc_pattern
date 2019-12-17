@@ -4,7 +4,7 @@ Base class, provider and `rxdart` builder for BLoC pattern in flutter
 
 
 [![Build Status](https://travis-ci.org/hoc081098/flutter_bloc_pattern.svg?branch=master)](https://travis-ci.org/hoc081098/flutter_bloc_pattern)
-[![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern.svg)](https://pub.dartlang.org/packages/distinct_value_connectable_stream)
+[![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern.svg)](https://pub.dev/packages/flutter_bloc_pattern)
 
 ## Getting Started
 
