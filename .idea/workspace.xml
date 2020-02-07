@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="03f2b5b9-e032-43b3-92d7-88f5200c1e9d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_bloc_pattern.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_bloc_pattern.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +37,16 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunManager" selected="Flutter Test.tests in flutter_bloc_pattern_test.dart">
+    <configuration name="Children can only access parent providers" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Children can only access parent providers" />
+      <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Empty bloc providers returns child" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Empty bloc providers returns child" />
+      <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
+      <method v="2" />
+    </configuration>
     <configuration name="Flutter bloc pattern provider" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
       <option name="testName" value="Flutter bloc pattern provider" />
       <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
@@ -45,16 +57,6 @@
       <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="calls initBloc only once" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testName" value="calls initBloc only once" />
-      <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
-      <method v="2" />
-    </configuration>
-    <configuration name="dispose" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testName" value="dispose" />
-      <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
-      <method v="2" />
-    </configuration>
     <configuration name="tests in flutter_bloc_pattern_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
       <option name="testFile" value="$PROJECT_DIR$/test/flutter_bloc_pattern_test.dart" />
       <method v="2" />
@@ -62,10 +64,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Flutter Test.tests in flutter_bloc_pattern_test.dart" />
+        <item itemvalue="Flutter Test.Children can only access parent providers" />
+        <item itemvalue="Flutter Test.Empty bloc providers returns child" />
         <item itemvalue="Flutter Test.Get initial data" />
         <item itemvalue="Flutter Test.Flutter bloc pattern provider" />
-        <item itemvalue="Flutter Test.dispose" />
-        <item itemvalue="Flutter Test.calls initBloc only once" />
       </list>
     </recent_temporary>
   </component>
@@ -101,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576554695435</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Publish 1.1.1">
+      <created>1581040679874</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1581040679874</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,9 +132,34 @@
     <MESSAGE value="add license" />
     <MESSAGE value="up" />
     <MESSAGE value="up readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="up readme" />
+    <MESSAGE value="Publish 1.1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Publish 1.1.1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="322" y="0" key="CommitChangelistDialog2" timestamp="1581040678610">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="322" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1581040678610" />
+    <state width="1323" height="367" key="GridCell.Tab.0.bottom" timestamp="1581041779431">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="367" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1581041779431" />
+    <state width="1323" height="367" key="GridCell.Tab.0.center" timestamp="1581041779431">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="367" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1581041779431" />
+    <state width="1323" height="367" key="GridCell.Tab.0.left" timestamp="1581041779430">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="367" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1581041779430" />
+    <state width="1323" height="367" key="GridCell.Tab.0.right" timestamp="1581041779431">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="367" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1581041779431" />
+    <state x="275" y="101" key="Vcs.Push.Dialog.v2" timestamp="1581040681419">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="101" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1581040681419" />
     <state x="391" y="193" key="com.intellij.ide.util.TipDialog" timestamp="1581038877340">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

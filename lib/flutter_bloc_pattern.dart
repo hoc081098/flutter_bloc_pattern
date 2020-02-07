@@ -30,9 +30,8 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
   const BlocProvider({
     Key key,
     @required this.initBloc,
-    @required this.child,
-  })  : assert(child != null),
-        super(key: key);
+    this.child,
+  }) : super(key: key);
 
   @override
   _BlocProviderState<T> createState() => _BlocProviderState<T>();

@@ -1,3 +1,7 @@
+## 1.1.2 - 07 February 2020
+
+* Remove `assert(child != null)` and `@required child` in `BlocProvider` constructor 
+
 ## 1.1.1 - 07 February 2020
 
 * Add `DisposeCallbackBaseBloc`

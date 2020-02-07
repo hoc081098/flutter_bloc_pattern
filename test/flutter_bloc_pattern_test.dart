@@ -6,6 +6,12 @@ import 'package:rxdart/rxdart.dart';
 
 class MockBloc extends Mock implements BaseBloc {}
 
+class BlocA extends Mock implements BaseBloc {}
+
+class BlocB extends Mock implements BaseBloc {}
+
+class BlocC extends Mock implements DisposeCallbackBaseBloc {}
+
 class ValueBuilder<T extends BaseBloc> extends Mock {
   T call();
 }
@@ -131,6 +137,89 @@ void main() {
         ),
         isNull,
       );
+    });
+  });
+
+  group('BlocProviders', () {
+    testWidgets('Empty bloc providers returns child', (tester) async {
+      await tester.pumpWidget(
+        BlocProviders(
+          child: Text(
+            'Hello',
+            textDirection: TextDirection.ltr,
+          ),
+          blocProviders: [],
+        ),
+      );
+
+      expect(find.text('Hello'), findsOneWidget);
+    });
+
+    testWidgets('Children can only access parent providers', (tester) async {
+      final isBlocProviderError = throwsA(isA<BlocProviderError>());
+
+      final k1 = GlobalKey();
+      final k2 = GlobalKey();
+      final k3 = GlobalKey();
+      final blocA = BlocA();
+      final blocB = BlocB();
+      final blocC = BlocC();
+      final keyChild = GlobalKey();
+
+      final p1 = BlocProvider<BlocA>(key: k1, initBloc: () => blocA);
+      final p2 = BlocProvider<BlocB>(key: k2, initBloc: () => blocB);
+      final p3 = BlocProvider<BlocC>(key: k3, initBloc: () => blocC);
+
+      await tester.pumpWidget(
+        BlocProviders(
+          blocProviders: [p1, p2, p3],
+          child: Text(
+            'Foo',
+            key: keyChild,
+            textDirection: TextDirection.ltr,
+          ),
+        ),
+      );
+
+      expect(find.text('Foo'), findsOneWidget);
+
+      // p1 cannot access to p1, p2 and p3
+      expect(
+        () => BlocProvider.of<BlocA>(k1.currentContext),
+        isBlocProviderError,
+      );
+      expect(
+        () => BlocProvider.of<BlocB>(k1.currentContext),
+        isBlocProviderError,
+      );
+      expect(
+        () => BlocProvider.of<BlocC>(k1.currentContext),
+        isBlocProviderError,
+      );
+
+      // p2 can access only p1
+      expect(BlocProvider.of<BlocA>(k2.currentContext), blocA);
+      expect(
+        () => BlocProvider.of<BlocB>(k2.currentContext),
+        isBlocProviderError,
+      );
+      expect(
+        () => BlocProvider.of<BlocC>(k2.currentContext),
+        isBlocProviderError,
+      );
+
+      // p3 can access both p1 and p2
+      expect(BlocProvider.of<BlocA>(k3.currentContext), blocA);
+      expect(BlocProvider.of<BlocB>(k3.currentContext), blocB);
+      expect(
+        () => BlocProvider.of<BlocC>(k3.currentContext),
+        isBlocProviderError,
+      );
+
+      // the child can access them all
+      expect(BlocProvider.of<BlocA>(keyChild.currentContext), blocA);
+      expect(BlocProvider.of<BlocB>(keyChild.currentContext), blocB);
+      expect(BlocProvider.of<BlocC>(keyChild.currentContext), blocC);
     });
   });
 }
