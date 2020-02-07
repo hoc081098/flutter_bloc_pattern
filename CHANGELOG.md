@@ -1,3 +1,8 @@
+## 1.1.1 - 07 February 2020
+
+* Add `DisposeCallbackBaseBloc`
+* Add `BlocProviders`
+
 ## 1.1.0 - 17 December 2019
 
 * Update rxdart

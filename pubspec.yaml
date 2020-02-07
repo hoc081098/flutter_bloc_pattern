@@ -1,7 +1,9 @@
 name: flutter_bloc_pattern
-description: A library that connects Widgets to BLoC
-version: 1.1.0
-homepage: https://github.com/hoc081098/flutter_bloc_pattern
+description: Bloc provider. Provides bloc to descendant widget (O(1)), and the bloc is disposed appropriately by state which the bloc_provider holds internally.
+version: 1.1.1
+homepage: https://github.com/hoc081098/flutter_bloc_pattern.git
+repository: https://github.com/hoc081098/flutter_bloc_pattern.git
+issue_tracker: https://github.com/hoc081098/flutter_bloc_pattern/issues
 
 environment:
   sdk: '>=2.6.0 <3.0.0'

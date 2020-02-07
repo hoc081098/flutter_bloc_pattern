@@ -9,6 +9,15 @@ abstract class BaseBloc {
   void dispose();
 }
 
+class DisposeCallbackBaseBloc implements BaseBloc {
+  final void Function() _dispose;
+
+  const DisposeCallbackBaseBloc(this._dispose) : assert(_dispose != null);
+
+  @override
+  void dispose() => _dispose();
+}
+
 // Workaround to capture generics
 Type _typeOf<T>() => T;
 
@@ -59,6 +68,14 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
     }
     return provider.bloc;
   }
+
+  BlocProvider<T> copyWithChild(Widget child) {
+    return BlocProvider<T>(
+      initBloc: initBloc,
+      child: child,
+      key: key,
+    );
+  }
 }
 
 class _BlocProviderState<T extends BaseBloc> extends State<BlocProvider<T>> {
@@ -97,6 +114,64 @@ class _BlocProviderInherited<T extends BaseBloc> extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_BlocProviderInherited<T> old) => bloc != old.bloc;
+}
+
+/// A bloc provider that exposes that merges multiple other [BlocProvider]s into one.
+///
+/// [BlocProviders] is used to improve the readability and reduce the boilerplate of
+/// having many nested providers.
+///
+/// As such, we're going from:
+///
+/// ```dart
+/// BlocProvider<BlocA>(
+///   initBloc: () => blocA,
+///   child: BlocProvider<BlocB>(
+///     initBloc: () => blocB,
+///     child: BlocProvider<BlocC>(
+///       initBloc: () => blocC,
+///       child: someWidget,
+///     )
+///   )
+/// )
+/// ```
+///
+/// To:
+///
+/// ```dart
+/// BlocProviders(
+///   blocProviders: [
+///     BlocProvider<BlocA>(initBloc: () => blocA),
+///     BlocProvider<BlocB>(initBloc: () => blocB),
+///     BlocProvider<BlocC>(initBloc: () => blocC),
+///   ],
+///   child: someWidget,
+/// )
+/// ```
+///
+/// Technically, these two are identical. [BlocProviders] will convert the list into a tree.
+/// This changes only the appearance of the code.
+class BlocProviders extends StatelessWidget {
+  /// The list of bloc providers that will be transformed into a tree.
+  /// The tree is created from top to bottom.
+  /// The first item because to topmost provider, while the last item it the direct parent of [child].
+  final List<BlocProvider<dynamic>> blocProviders;
+
+  /// The child of the last provider in [blocProviders].
+  /// If [blocProviders] is empty, then [BlocProviders] just returns [child].
+  final Widget child;
+
+  const BlocProviders({
+    Key key,
+    @required this.blocProviders,
+    @required this.child,
+  })  : assert(blocProviders != null),
+        assert(child != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) =>
+      blocProviders.reversed.fold(child, (acc, e) => e.copyWithChild(acc));
 }
 
 /// If the BlocProvider.of method fails, this error will be thrown.
