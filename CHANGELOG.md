@@ -1,32 +1,36 @@
-## 1.1.2 - 07 February 2020
+## 1.2.0 - Apr 23, 2020
 
-* Remove `assert(child != null)` and `@required child` in `BlocProvider` constructor 
+*   Breaking change: support for `rxdart` 0.24.x.
 
-## 1.1.1 - 07 February 2020
+## 1.1.2 - Feb 07, 2020
 
-* Add `DisposeCallbackBaseBloc`
-* Add `BlocProviders`
+*   Remove `assert(child != null)` and `@required child` in `BlocProvider` constructor 
 
-## 1.1.0 - 17 December 2019
+## 1.1.1 - Feb 07, 2020
 
-* Update rxdart
+*   Add `DisposeCallbackBaseBloc`
+*   Add `BlocProviders`
 
-## 1.0.1 - 10 August 2019
+## 1.1.0 - Dec 17, 2019
 
-* Minor updates
+*   Update `rxdart`
 
-## 1.0.0+1 - 10 August 2019
+## 1.0.1 - Aug 10, 2019
 
-* Update README.md
+*   Minor updates
 
-## 1.0.0 - 10 August 2019
+## 1.0.0+1 - Aug 10, 2019
 
-* Add `RxStreamBuilder`
+*   Update README.md
 
-## 0.0.1+1 - 8 February 2019
+## 1.0.0 - Aug 10, 2019
 
-* Add example
+*   Add `RxStreamBuilder`
 
-## 0.0.1 - 8 February 2019
+## 0.0.1+1 - Feb 08, 2019
 
-* Initial
+*   Add example
+
+## 0.0.1 - Feb 08, 2019
+
+*   Initial
