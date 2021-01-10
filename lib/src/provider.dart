@@ -3,9 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'base.dart';
 import 'error.dart';
 
-// Workaround to capture generics
-Type _typeOf<T>() => T;
-
 /// Provides [BaseBloc] to all descendants of this Widget. This should
 /// generally be a root widget in your App
 class BlocProvider<T extends BaseBloc> extends StatefulWidget {
