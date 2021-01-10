@@ -44,12 +44,23 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
   ///   }
   /// }
   /// ```
-  static T of<T extends BaseBloc>(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<_BlocProviderInherited<T>>();
-    if (provider == null) {
-      throw BlocProviderError(_typeOf<_BlocProviderInherited<T>>());
+  static T of<T extends BaseBloc>(BuildContext context, {bool listen = false}) {
+    if (T == dynamic) {
+      throw BlocProviderError(null);
     }
+
+    final provider = listen
+        ? context
+            .dependOnInheritedWidgetOfExactType<_BlocProviderInherited<T>>()
+        : (context
+            .getElementForInheritedWidgetOfExactType<
+                _BlocProviderInherited<T>>()
+            ?.widget as _BlocProviderInherited<T>?);
+
+    if (provider == null) {
+      throw BlocProviderError(T);
+    }
+
     return provider.bloc;
   }
 
@@ -60,6 +71,11 @@ class BlocProvider<T extends BaseBloc> extends StatefulWidget {
       key: key,
     );
   }
+}
+
+extension BlocProviderExtension on BuildContext {
+  T bloc<T extends BaseBloc>({bool listen = false}) =>
+      BlocProvider.of<T>(this, listen: listen);
 }
 
 class _BlocProviderState<T extends BaseBloc> extends State<BlocProvider<T>> {
