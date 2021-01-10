@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03f2b5b9-e032-43b3-92d7-88f5200c1e9d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610299989064</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="nnbd">
+      <created>1610300087980</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1610300087980</updated>
+    </task>
+    <task id="LOCAL-00010" summary="delete .travis.yml">
+      <created>1610300135296</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610300135296</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,13 +177,18 @@
     <MESSAGE value="Publish 1.1.2" />
     <MESSAGE value="release 1.2.0" />
     <MESSAGE value="nnbd" />
-    <option name="LAST_COMMIT_MESSAGE" value="nnbd" />
+    <MESSAGE value="delete .travis.yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete .travis.yml" />
   </component>
   <component name="WindowStateProjectService">
     <state x="404" y="52" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1610299235197">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="404" y="52" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1366.728@0.0.1366.728" timestamp="1610299235197" />
+    <state x="305" y="0" key="CommitChangelistDialog2" timestamp="1610300134264">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="305" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1610300134264" />
     <state width="1323" height="282" key="GridCell.Tab.0.bottom" timestamp="1610299970101">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -186,5 +205,13 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1323" height="282" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1610299970101" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1610300135810">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1610300135810" />
+    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610300835008">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1610300835008" />
   </component>
 </project>
