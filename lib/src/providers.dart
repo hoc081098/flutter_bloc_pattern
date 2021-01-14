@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_provider/flutter_provider.dart';
 
 import 'provider.dart';
 
@@ -37,9 +38,7 @@ import 'provider.dart';
 ///
 /// Technically, these two are identical. [BlocProviders] will convert the list into a tree.
 /// This changes only the appearance of the code.
-class BlocProviders extends StatelessWidget {
-  final Widget _widget;
-
+class BlocProviders extends Providers {
   /// The [blocProviders] is a list of bloc providers that will be transformed into a tree.
   /// The tree is created from top to bottom.
   /// The first item because to topmost provider, while the last item it the direct parent of [child].
@@ -49,16 +48,13 @@ class BlocProviders extends StatelessWidget {
   /// If [blocProviders] is empty, then [BlocProviders] just returns [child].
   BlocProviders({
     Key? key,
-    required List<BlocProvider<dynamic>> blocProviders,
+    required List<BlocProvider> blocProviders,
     required Widget child,
-  })   : _widget = ArgumentError.checkNotNull(blocProviders, 'blocProviders')
-            .reversed
-            .fold<Widget>(
-              ArgumentError.checkNotNull(child, 'child'),
-              (acc, e) => e.copyWithChild(acc),
-            ),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) => _widget;
+  })   : assert(blocProviders != null),
+        assert(child != null),
+        super(
+          key: key,
+          providers: blocProviders,
+          child: child,
+        );
 }

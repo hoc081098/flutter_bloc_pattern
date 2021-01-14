@@ -1,6 +1,7 @@
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:flutter_bloc_pattern/src/base.dart' as _i2;
 import 'flutter_bloc_pattern_test.dart' as _i3;
+import 'package:flutter/src/widgets/framework.dart' as _i4;
 
 class _FakeBaseBloc extends _i1.Fake implements _i2.BaseBloc {}
 
@@ -12,8 +13,8 @@ class MockBaseBlocProvider extends _i1.Mock implements _i3.BaseBlocProvider {
     _i1.throwOnMissingStub(this);
   }
 
-  _i2.BaseBloc call() =>
-      (super.noSuchMethod(Invocation.method(#call, []), _FakeBaseBloc())
+  _i2.BaseBloc call(_i4.BuildContext? context) =>
+      (super.noSuchMethod(Invocation.method(#call, [context]), _FakeBaseBloc())
           as _i2.BaseBloc);
 }
 

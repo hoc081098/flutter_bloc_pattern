@@ -28,7 +28,7 @@ class StartPage extends StatelessWidget {
               builder: (context) {
                 return BlocProvider<CounterBloc>(
                   child: MyHomePage(),
-                  initBloc: () => CounterBloc(),
+                  initBloc: (_) => CounterBloc(),
                 );
               },
             ),

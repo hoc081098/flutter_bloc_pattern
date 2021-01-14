@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import 'flutter_bloc_pattern_test.mocks.dart';
 
 abstract class BaseBlocProvider {
-  BaseBloc call();
+  BaseBloc call(BuildContext context);
 }
 
 // ignore: must_be_immutable
@@ -44,7 +44,7 @@ void main() {
       when(bloc.dispose()).thenReturn(null);
 
       final widget = BlocProvider<MockBloc>(
-        initBloc: () => bloc,
+        initBloc: (_) => bloc,
         child: BlocCaptor<MockBloc>(),
       );
 
@@ -60,7 +60,7 @@ void main() {
     testWidgets('calls initBloc only once', (tester) async {
       final builder = MockBaseBlocProvider();
       final bloc = MockBloc();
-      when(builder.call()).thenReturn(bloc);
+      when(builder.call(any)).thenReturn(bloc);
       when(bloc.dispose()).thenReturn(null);
 
       await tester.pumpWidget(
@@ -77,7 +77,7 @@ void main() {
       );
       await tester.pumpWidget(Container());
 
-      verify(builder()).called(1);
+      verify(builder(any)).called(1);
     });
 
     testWidgets('dispose', (tester) async {
@@ -85,7 +85,7 @@ void main() {
       when(bloc.dispose()).thenReturn(null);
 
       final widget = BlocProvider<MockBloc>(
-        initBloc: () => bloc,
+        initBloc: (_) => bloc,
         child: Container(),
       );
       await tester.pumpWidget(widget);
@@ -192,9 +192,9 @@ void main() {
       when(blocB.dispose()).thenReturn(null);
       when(blocC.dispose()).thenReturn(null);
 
-      final p1 = BlocProvider<BlocA>(key: k1, initBloc: () => blocA);
-      final p2 = BlocProvider<BlocB>(key: k2, initBloc: () => blocB);
-      final p3 = BlocProvider<BlocC>(key: k3, initBloc: () => blocC);
+      final p1 = BlocProvider<BlocA>(key: k1, initBloc: (_) => blocA);
+      final p2 = BlocProvider<BlocB>(key: k2, initBloc: (_) => blocB);
+      final p3 = BlocProvider<BlocC>(key: k3, initBloc: (_) => blocC);
 
       await tester.pumpWidget(
         BlocProviders(
