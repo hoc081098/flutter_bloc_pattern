@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
-import 'package:example/counter_bloc.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
+
+import 'counter_bloc.dart';
 
 class Dependencies {
   var _i = 0;

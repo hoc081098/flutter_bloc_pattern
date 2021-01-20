@@ -1,8 +1,8 @@
-import 'package:example/bloc_with_deps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 
+import 'bloc_with_deps.dart';
 import 'counter_bloc.dart';
 
 void main() => runApp(MyApp());
