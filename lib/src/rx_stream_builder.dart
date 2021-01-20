@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'error.dart';
 
 // ignore_for_file: unnecessary_null_comparison
 
@@ -78,5 +82,10 @@ class RxStreamBuilder<T> extends StatelessWidget {
 
   static AsyncWidgetBuilder<T> _createStreamBuilder<T>(
           RxWidgetBuilder<T> builder) =>
-      (context, snapshot) => builder(context, snapshot.data);
+      (context, snapshot) {
+        if (snapshot.hasError) {
+          throw UnhandledStreamError(snapshot.error!);
+        }
+        return builder(context, snapshot.data);
+      };
 }

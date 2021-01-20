@@ -240,6 +240,50 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       await tester.pumpWidget(const SizedBox());
       expect(events, [seeded, event1, event2]);
     });
+
+    testWidgets('report error if has error', (tester) async {
+      final completer = Completer<Object>.sync();
+      FlutterError.onError =
+          (errorDetails) => completer.complete(errorDetails.exception);
+
+      final controller = StreamController<String>();
+      final seeded = 'Seeded';
+
+      await tester.pumpWidget(
+        RxStreamBuilder<String>(
+          stream: controller.stream.shareValueSeeded(seeded),
+          builder: (context, s) => Text(s!, textDirection: TextDirection.ltr),
+        ),
+      );
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(find.text(seeded), findsOneWidget);
+
+      controller.addError(Exception());
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+
+      final error = await completer.future;
+      print(error);
+      expect(
+        error,
+        isA<UnhandledStreamError>().having(
+          (e) => e.toString(),
+          'toString()',
+          '''Unhandled error from Stream: Exception.
+You should use one of following methods to handle error before passing stream to RxStreamBuilder:
+  * stream.handleError((e, s) { })
+  * stream.onErrorReturn(value)
+  * stream.onErrorReturnWith((e) => value)
+  * stream.onErrorResumeNext(otherStream)
+  * stream.onErrorResume((e) => otherStream)
+  * stream.transform(
+        StreamTransformer.fromHandlers(handleError: (e, s, sink) {}))
+  ...
+If none of these solutions work, please file a bug at:
+https://github.com/hoc081098/flutter_bloc_pattern/issues/new
+''',
+        ),
+      );
+    });
   });
 
   group('BlocProviders', () {
