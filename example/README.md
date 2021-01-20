@@ -1,75 +1,94 @@
-[Simple example](https://github.com/hoc081098/flutter_bloc_pattern/tree/master/example/counter) a port of the standard "Counter Button" example from Flutter <br>
+[Simple example](https://github.com/hoc081098/flutter_bloc_pattern/tree/master/example/counter) a port of the standard "Counter Button" example from Flutter.
 
-counter_bloc.dart:
+### 1. File `counter_bloc.dart`:
 ```dart
-import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:meta/meta.dart';
-import 'package:rxdart/rxdart.dart';
+import 'dart:async';
 
-//ignore_for_file: close_sinks
-class CounterBloc implements BaseBloc {
+import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
+import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
+
+class CounterBloc extends DisposeCallbackBaseBloc {
   /// Inputs
   final void Function() increment;
 
   /// Outputs
-  final ValueObservable<int> state;
+  final DistinctValueStream<int> state;
 
-  /// Clean up
-  final void Function() _dispose;
-
-  CounterBloc._(
-    this._dispose, {
-    @required this.increment,
-    @required this.state,
-  });
+  CounterBloc._({
+    required void Function() dispose,
+    required this.increment,
+    required this.state,
+  }) : super(dispose);
 
   factory CounterBloc() {
-    final incrementController = PublishSubject<void>();
-    final state = incrementController
-        .scan<int>((acc, _, __) => acc + 1, 0)
-        .shareValue(seedValue: 0);
+    // ignore: close_sinks
+    final incrementController = StreamController<void>();
+
+    final state = incrementController.stream
+        .scan<int>((acc, _, __) => acc! + 1, 0)
+        .publishValueDistinct(0);
+    final connection = state.connect();
 
     return CounterBloc._(
-      incrementController.close,
+      dispose: () async {
+        await connection.cancel();
+        await incrementController.close();
+        print('>>> disposed');
+      },
       increment: () => incrementController.add(null),
       state: state,
     );
   }
-
-  @override
-  void dispose() => _dispose();
 }
+
 ```
 
-main.dart:
+### 2. File `main.dart`:
 ```dart
-import 'package:counter/counter_bloc.dart';
+import 'package:example/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 
-void main() {
-  runApp(
-    BlocProvider<CounterBloc>(
-      child: MyApp(),
-      initBloc: () => CounterBloc(),
-    ),
-  );
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: const MyHomePage(),
+      title: 'Flutter bloc pattern',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: StartPage(),
+    );
+  }
+}
+
+class StartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: TextButton(
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return BlocProvider<CounterBloc>(
+                  child: MyHomePage(),
+                  initBloc: () => CounterBloc(),
+                );
+              },
+            ),
+          ),
+          child: Text('GO TO HOME'),
+        ),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key}) : super(key: key);
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -86,28 +105,48 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text('You have pushed the button this many times:'),
-            TextCounter(),
+            TextCounter1(),
+            TextCounter2(),
           ],
         ),
       ),
-      floatingActionButton:
-          const IncrementButton(), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: const IncrementButton(),
     );
   }
 }
 
-class TextCounter extends StatelessWidget {
-  const TextCounter({Key key}) : super(key: key);
+class TextCounter1 extends StatelessWidget {
+  const TextCounter1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CounterBloc>(context);
+
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, snapshot) {
+      builder: (context, data) {
         return Text(
-          '${snapshot.data}',
-          style: Theme.of(context).textTheme.display1,
+          'COUNTER 1: $data',
+          style: Theme.of(context).textTheme.headline4,
+        );
+      },
+    );
+  }
+}
+
+class TextCounter2 extends StatelessWidget {
+  const TextCounter2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<CounterBloc>();
+
+    return RxStreamBuilder<int>(
+      stream: bloc.state,
+      builder: (context, data) {
+        return Text(
+          'COUNTER 2: $data',
+          style: Theme.of(context).textTheme.headline4,
         );
       },
     );
@@ -115,11 +154,12 @@ class TextCounter extends StatelessWidget {
 }
 
 class IncrementButton extends StatelessWidget {
-  const IncrementButton({Key key}) : super(key: key);
+  const IncrementButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CounterBloc>(context);
+    final bloc = context.bloc<CounterBloc>();
+
     return FloatingActionButton(
       onPressed: bloc.increment,
       tooltip: 'Increment',

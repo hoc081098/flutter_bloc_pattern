@@ -4,20 +4,20 @@ import 'package:flutter_provider/flutter_provider.dart';
 import 'base.dart';
 import 'error.dart';
 
+// ignore_for_file: unnecessary_null_comparison
+
 /// Provides [BaseBloc] to all descendants of this Widget. This should
 /// generally be a root widget in your App
-class BlocProvider<T extends BaseBloc> extends Provider<T> {
-  final T Function(BuildContext) initBloc;
-  final Widget? child;
+class BlocProvider<T extends BaseBloc> extends StatelessWidget {
+  final Provider<T> _provider;
 
   BlocProvider({
     Key? key,
-    required this.initBloc,
-    this.child,
-  })  : assert(initBloc != null),
-        super.factory(
+    required T Function(BuildContext) initBloc,
+    Widget? child,
+  }) : _provider = Provider<T>.factory(
+          initBloc,
           key: key,
-          factory: initBloc,
           disposer: (bloc) => bloc.dispose(),
           child: child,
         );
@@ -26,7 +26,7 @@ class BlocProvider<T extends BaseBloc> extends Provider<T> {
   /// from the [BlocProvider].
   ///
   /// Important: When using this method, pass through complete type information
-  /// or Flutter will be unable to find the correct [_BlocProviderInherited]!
+  /// or Flutter will be unable to find the correct bloc!
   ///
   /// ### Example
   ///
@@ -52,6 +52,9 @@ class BlocProvider<T extends BaseBloc> extends Provider<T> {
       throw BlocProviderError(e.type);
     }
   }
+
+  @override
+  Widget build(BuildContext context) => _provider;
 }
 
 /// Retrieve the bloc from the [BlocProvider] by this [BuildContext].
@@ -59,4 +62,61 @@ extension BlocProviderExtension on BuildContext {
   /// Retrieve the bloc from the [BlocProvider] by this [BuildContext].
   T bloc<T extends BaseBloc>({bool listen = false}) =>
       BlocProvider.of<T>(this, listen: listen);
+}
+
+/// A bloc provider that exposes that merges multiple other [BlocProvider]s into one.
+///
+/// [BlocProviders] is used to improve the readability and reduce the boilerplate of
+/// having many nested providers.
+///
+/// As such, we're going from:
+///
+/// ```dart
+/// BlocProvider<BlocA>(
+///   initBloc: () => blocA,
+///   child: BlocProvider<BlocB>(
+///     initBloc: () => blocB,
+///     child: BlocProvider<BlocC>(
+///       initBloc: () => blocC,
+///       child: someWidget,
+///     )
+///   )
+/// )
+/// ```
+///
+/// To:
+///
+/// ```dart
+/// BlocProviders(
+///   blocProviders: [
+///     BlocProvider<BlocA>(initBloc: () => blocA),
+///     BlocProvider<BlocB>(initBloc: () => blocB),
+///     BlocProvider<BlocC>(initBloc: () => blocC),
+///   ],
+///   child: someWidget,
+/// )
+/// ```
+///
+/// Technically, these two are identical. [BlocProviders] will convert the list into a tree.
+/// This changes only the appearance of the code.
+class BlocProviders extends Providers {
+  /// The [blocProviders] is a list of bloc providers that will be transformed into a tree.
+  /// The tree is created from top to bottom.
+  /// The first item because to topmost provider, while the last item it the direct parent of [child].
+  ///
+  /// The [child] is child of the last provider in [blocProviders].
+  ///
+  /// If [blocProviders] is empty, then [BlocProviders] just returns [child].
+  BlocProviders({
+    Key? key,
+    required List<BlocProvider> blocProviders,
+    required Widget child,
+  })   : assert(blocProviders != null && blocProviders.isNotEmpty),
+        assert(child != null),
+        super(
+          key: key,
+          providers:
+              blocProviders.map((e) => e._provider).toList(growable: false),
+          child: child,
+        );
 }

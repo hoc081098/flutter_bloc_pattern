@@ -30,7 +30,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
       dispose: () async {
         await connection.cancel();
         await incrementController.close();
-        print('>>> disposed');
+        print('CounterBloc::disposed');
       },
       increment: () => incrementController.add(null),
       state: state,

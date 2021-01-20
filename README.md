@@ -1,7 +1,6 @@
 # flutter_bloc_pattern
 
-Base class, provider and `rxdart` builder for BLoC pattern in flutter
-
+Base class, BLoC provider and `rxdart` builder for BLoC pattern in Flutter.
 
 [![Flutter test](https://github.com/hoc081098/flutter_bloc_pattern/workflows/Flutter%20test/badge.svg)](https://github.com/hoc081098/flutter_bloc_pattern/actions)
 [![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern.svg)](https://pub.dev/packages/flutter_bloc_pattern)
@@ -37,8 +36,7 @@ class MyBloc implements BaseBloc {
  final bloc = BlocProvider.of<MyBloc>(context);
  return RxStreamBuilder(
   stream: bloc.stream,
-  builder: (context, snapshot) {
-    final String data = snapshot.data;
+  builder: (context, data) {
     return ...;
   },
 );
@@ -170,9 +168,9 @@ class TextCounter1 extends StatelessWidget {
 
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, snapshot) {
+      builder: (context, data) {
         return Text(
-          'COUNTER 1: ${snapshot.data}',
+          'COUNTER 1: $data',
           style: Theme.of(context).textTheme.headline4,
         );
       },
@@ -189,9 +187,9 @@ class TextCounter2 extends StatelessWidget {
 
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, snapshot) {
+      builder: (context, data) {
         return Text(
-          'COUNTER 2: ${snapshot.data}',
+          'COUNTER 2: $data',
           style: Theme.of(context).textTheme.headline4,
         );
       },

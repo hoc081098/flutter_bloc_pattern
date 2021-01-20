@@ -1,12 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 
+// ignore_for_file: unnecessary_null_comparison
+
+/// Signature for strategies that build widgets based on asynchronous interaction.
+typedef RxWidgetBuilder<T> = Widget Function(BuildContext context, T? data);
+
 /// Rx stream builder that will pre-populate the streams initial data if the
 /// given stream is an stream that holds the streams current value such
 /// as a [ValueStream] or a [ReplayStream]
 class RxStreamBuilder<T> extends StatelessWidget {
-  /// The build strategy currently used by this builder.
-  final AsyncWidgetBuilder<T> builder;
+  final AsyncWidgetBuilder<T> _builder;
 
   /// The asynchronous computation to which this builder is currently connected,
   /// possibly null. When changed, the current summary is updated using
@@ -24,21 +28,29 @@ class RxStreamBuilder<T> extends StatelessWidget {
   /// build.
   final T? initialData;
 
+  /// Creates a new [RxStreamBuilder] that builds itself based on the latest
+  /// snapshot of interaction with the specified [stream] and whose build
+  /// strategy is given by [builder].
+  ///
+  /// The [initialData] is used to create the initial snapshot.
+  ///
+  /// The [builder] must not be null. It must only return a widget and should not have any side
+  /// effects as it may be called multiple times.
   RxStreamBuilder({
     Key? key,
-    required this.builder,
+    required RxWidgetBuilder<T> builder,
     required this.stream,
     this.initialData,
-  }) : super(key: key) {
-    ArgumentError.checkNotNull(builder, 'builder');
-    ArgumentError.checkNotNull(stream, 'stream');
-  }
+  })  : assert(builder != null),
+        assert(stream != null),
+        _builder = _createStreamBuilder<T>(builder),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<T>(
       initialData: getInitialData(initialData, stream),
-      builder: builder,
+      builder: _builder,
       stream: stream,
     );
   }
@@ -62,4 +74,8 @@ class RxStreamBuilder<T> extends StatelessWidget {
 
     return null;
   }
+
+  static AsyncWidgetBuilder<T> _createStreamBuilder<T>(
+          RxWidgetBuilder<T> builder) =>
+      (context, snapshot) => builder(context, snapshot.data);
 }

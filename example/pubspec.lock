@@ -79,12 +79,10 @@ packages:
   flutter_provider:
     dependency: transitive
     description:
-      path: "."
-      ref: nnbd
-      resolved-ref: cde401e93ba3fae29b37299ed068abd34a5336e2
-      url: "https://github.com/hoc081098/flutter_provider.git"
-    source: git
-    version: "1.2.0"
+      name: flutter_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-nullsafety.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

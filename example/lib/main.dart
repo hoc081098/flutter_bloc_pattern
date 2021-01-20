@@ -1,18 +1,25 @@
-import 'package:example/bloc.dart';
+import 'package:example/bloc_with_deps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:flutter_provider/flutter_provider.dart';
+
+import 'counter_bloc.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter bloc pattern',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider<Dependencies>.factory(
+      (_) => Dependencies(),
+      disposer: (d) => d.dispose(),
+      child: MaterialApp(
+        title: 'Flutter bloc pattern',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: StartPage(),
       ),
-      home: StartPage(),
     );
   }
 }
@@ -27,8 +34,18 @@ class StartPage extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 return BlocProvider<CounterBloc>(
-                  child: MyHomePage(),
                   initBloc: (_) => CounterBloc(),
+                  child: BlocProviders(
+                    blocProviders: [
+                      BlocProvider(
+                        initBloc: (context) => Bloc1(context.get()),
+                      ),
+                      BlocProvider(
+                        initBloc: (context) => Bloc2(context.bloc()),
+                      ),
+                    ],
+                    child: MyHomePage(),
+                  ),
                 );
               },
             ),
@@ -55,10 +72,18 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Text('You have pushed the button this many times:'),
             TextCounter1(),
             TextCounter2(),
+            TextBloc1(),
+            TextButton(
+              onPressed: () => context.bloc<Bloc2>(),
+              child: Text(
+                'Access Bloc 2',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            )
           ],
         ),
       ),
@@ -76,9 +101,9 @@ class TextCounter1 extends StatelessWidget {
 
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, snapshot) {
+      builder: (context, state) {
         return Text(
-          'COUNTER 1: ${snapshot.data}',
+          'COUNTER 1: $state',
           style: Theme.of(context).textTheme.headline4,
         );
       },
@@ -95,9 +120,9 @@ class TextCounter2 extends StatelessWidget {
 
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, snapshot) {
+      builder: (context, state) {
         return Text(
-          'COUNTER 2: ${snapshot.data}',
+          'COUNTER 2: $state',
           style: Theme.of(context).textTheme.headline4,
         );
       },
@@ -116,6 +141,26 @@ class IncrementButton extends StatelessWidget {
       onPressed: bloc.increment,
       tooltip: 'Increment',
       child: Icon(Icons.add),
+    );
+  }
+}
+
+class TextBloc1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.bloc<Bloc1>();
+
+    return RxStreamBuilder<String?>(
+      stream: bloc.string$,
+      builder: (context, state) {
+        return TextButton(
+          child: Text(
+            'BLOC 1: ${state ?? 'No data'}',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          onPressed: bloc.load,
+        );
+      },
     );
   }
 }
