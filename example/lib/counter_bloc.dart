@@ -6,7 +6,7 @@ import 'package:rxdart_ext/rxdart_ext.dart';
 
 class CounterBloc extends DisposeCallbackBaseBloc {
   /// Inputs
-  final void Function() increment;
+  final Func0<void> increment;
 
   /// Outputs
   final DistinctValueStream<int> state;
