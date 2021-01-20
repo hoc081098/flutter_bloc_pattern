@@ -163,18 +163,17 @@ void main() {
   });
 
   group('BlocProviders', () {
-    testWidgets('Empty bloc providers returns child', (tester) async {
-      await tester.pumpWidget(
-        BlocProviders(
+    test('Empty bloc providers throws AssertError', () {
+      expect(
+        () => BlocProviders(
           child: Text(
             'Hello',
             textDirection: TextDirection.ltr,
           ),
           blocProviders: [],
         ),
+        throwsAssertionError,
       );
-
-      expect(find.text('Hello'), findsOneWidget);
     });
 
     testWidgets('Children can only access parent providers', (tester) async {
