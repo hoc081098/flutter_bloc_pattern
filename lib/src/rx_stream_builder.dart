@@ -55,6 +55,7 @@ class RxStreamBuilder<T> extends StatelessWidget {
     );
   }
 
+  /// Get latest value from stream or return `null`.
   @visibleForTesting
   static T? getInitialData<T>(T? initialData, Stream<T> stream) {
     if (initialData != null) {

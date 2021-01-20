@@ -11,6 +11,11 @@ import 'error.dart';
 class BlocProvider<T extends BaseBloc> extends StatelessWidget {
   final Provider<T> _provider;
 
+  /// Create a [BlocProvider] that provides a bloc to all descendants.
+  /// The bloc created on first access, by calling [initBloc].
+  ///
+  /// [BaseBloc.dispose] will be called when [BlocProvider] is removed from the tree permanently
+  /// ([State.dispose] called).
   BlocProvider({
     Key? key,
     required T Function(BuildContext) initBloc,

@@ -1,5 +1,5 @@
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -10,6 +10,10 @@ import 'flutter_bloc_pattern_test.mocks.dart';
 
 abstract class BaseBlocProvider {
   BaseBloc call(BuildContext context);
+}
+
+abstract class Dispose {
+  void call();
 }
 
 // ignore: must_be_immutable
@@ -34,9 +38,40 @@ class BlocCaptor<T extends BaseBloc> extends StatelessWidget {
     MockSpec<BaseBloc>(as: #BlocA),
     MockSpec<BaseBloc>(as: #BlocB),
     MockSpec<DisposeCallbackBaseBloc>(as: #BlocC),
+    MockSpec<Dispose>(),
   ],
 )
 void main() {
+  group('Base and Error', () {
+    test('DisposeCallbackBaseBloc', () {
+      final dispose = MockDispose();
+      when(dispose.call()).thenReturn(null);
+
+      verifyNever(dispose.call());
+      DisposeCallbackBaseBloc(dispose).dispose();
+
+      verify(dispose.call()).called(1);
+    });
+
+    test('BlocProviderError', () {
+      expect(
+        BlocProviderError(null).toString(),
+        '''Error: please specify type instead of using dynamic when calling BlocProvider.of<T>() or context.bloc<T>() method.''',
+      );
+
+      expect(
+        BlocProviderError(BaseBloc).toString(),
+        '''Error: No BaseBloc found. To fix, please try:
+  * Wrapping your MaterialApp with the BlocProvider<BaseBloc>, 
+  rather than an individual Route.
+  * Providing full type information to BlocProvider<BaseBloc>, BlocProvider.of<BaseBloc> and context.bloc<BaseBloc>() method
+If none of these solutions work, please file a bug at:
+https://github.com/hoc081098/flutter_bloc_pattern/issues/new
+      ''',
+      );
+    });
+  });
+
   group('BlocProvider', () {
     testWidgets('passes a bloc down to its descendants',
         (WidgetTester tester) async {
@@ -109,7 +144,7 @@ void main() {
   group('RxStreamBuilder', () {
     test('Get initial data', () {
       expect(
-        RxStreamBuilder.getInitialData(1, Stream.empty()),
+        RxStreamBuilder.getInitialData<int>(1, Stream.empty()),
         1,
       );
       expect(
@@ -140,14 +175,14 @@ void main() {
       //
 
       expect(
-        RxStreamBuilder.getInitialData(
+        RxStreamBuilder.getInitialData<int>(
           null,
           ReplaySubject(maxSize: 2)..add(1)..add(2)..add(3)..add(4),
         ),
         4,
       );
       expect(
-        RxStreamBuilder.getInitialData(
+        RxStreamBuilder.getInitialData<int>(
           null,
           ReplaySubject(maxSize: 2),
         ),
@@ -158,16 +193,16 @@ void main() {
       //
 
       expect(
-        RxStreamBuilder.getInitialData(
+        RxStreamBuilder.getInitialData<int>(
           null,
-          Stream.empty().shareValueDistinct(2),
+          Stream<int>.empty().shareValueDistinct(2),
         ),
         2,
       );
       expect(
-        RxStreamBuilder.getInitialData(
+        RxStreamBuilder.getInitialData<int>(
           null,
-          Stream.empty().publishValueDistinct(3),
+          Stream<int>.empty().publishValueDistinct(3),
         ),
         3,
       );
@@ -189,7 +224,23 @@ void main() {
     });
 
     testWidgets('Children can only access parent providers', (tester) async {
-      final isBlocProviderError = throwsA(isA<BlocProviderError>());
+      final isBlocProviderError = (Type type) {
+        final string = '''Error: No $type found. To fix, please try:
+  * Wrapping your MaterialApp with the BlocProvider<$type>, 
+  rather than an individual Route.
+  * Providing full type information to BlocProvider<$type>, BlocProvider.of<$type> and context.bloc<$type>() method
+If none of these solutions work, please file a bug at:
+https://github.com/hoc081098/flutter_bloc_pattern/issues/new
+      ''';
+
+        return throwsA(
+          isA<BlocProviderError>().having(
+            (e) => e.toString(),
+            'toString()',
+            string,
+          ),
+        );
+      };
 
       final k1 = GlobalKey();
       final k2 = GlobalKey();
@@ -223,26 +274,26 @@ void main() {
       // p1 cannot access to p1, p2 and p3
       expect(
         () => BlocProvider.of<BlocA>(k1.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocA),
       );
       expect(
         () => BlocProvider.of<BlocB>(k1.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocB),
       );
       expect(
         () => BlocProvider.of<BlocC>(k1.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocC),
       );
 
       // p2 can access only p1
       expect(BlocProvider.of<BlocA>(k2.currentContext!), blocA);
       expect(
         () => BlocProvider.of<BlocB>(k2.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocB),
       );
       expect(
         () => BlocProvider.of<BlocC>(k2.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocC),
       );
 
       // p3 can access both p1 and p2
@@ -250,7 +301,7 @@ void main() {
       expect(BlocProvider.of<BlocB>(k3.currentContext!), blocB);
       expect(
         () => BlocProvider.of<BlocC>(k3.currentContext!),
-        isBlocProviderError,
+        isBlocProviderError(BlocC),
       );
 
       // the child can access them all
