@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -206,6 +208,37 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
         ),
         3,
       );
+    });
+
+    testWidgets('Build with latest value from Stream', (tester) async {
+      final controller = StreamController<String>();
+      final seeded = 'Seeded';
+      final event1 = 'Emitted 1';
+      final event2 = 'Emitted 2';
+      final events = <String>[];
+
+      await tester.pumpWidget(
+        RxStreamBuilder<String>(
+          stream: controller.stream.shareValueDistinct(seeded),
+          builder: (context, s) {
+            events.add(s!);
+
+            return Text(s, textDirection: TextDirection.ltr);
+          },
+        ),
+      );
+      expect(find.text(seeded), findsOneWidget);
+
+      controller.add(event1);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(find.text(event1), findsOneWidget);
+
+      controller.add(event2);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(find.text(event2), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox());
+      expect(events, [seeded, event1, event2]);
     });
   });
 
