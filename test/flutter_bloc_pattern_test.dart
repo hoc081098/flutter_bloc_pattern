@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart'
+    hide Func0, Func1, Func2, Func3, Func4, Func5, Func6;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
@@ -45,6 +46,45 @@ class BlocCaptor<T extends BaseBloc> extends StatelessWidget {
 )
 void main() {
   group('Base and Error', () {
+    test('Function types', () {
+      // ignore: omit_local_variable_types
+      final Func0<void> f0 = () {};
+
+      // ignore: omit_local_variable_types
+      final Func1<int, void> f1 = (i) {};
+
+      // ignore: omit_local_variable_types
+      final Func2<int, String, void> f2 = (i, s) {};
+
+      // ignore: omit_local_variable_types
+      final Func3<int, String, double, void> f3 = (i, s, d) {};
+
+      // ignore: omit_local_variable_types
+      final Func4<int, String, double, int, void> f4 = (i, s, d, i2) {};
+
+      // ignore: omit_local_variable_types
+      final Func5<int, String, double, int, List<int>, int> f5 =
+          (i, s, d, i2, li) => i + i2;
+
+      // ignore: omit_local_variable_types
+      final Func6<int, String, double, int, List<int>, Map<int, int>, int> f6 =
+          (i, s, d, i2, li, map) => i + i2;
+
+      // ignore: omit_local_variable_types
+      final Func7<int, String, double, int, List<int>, Map<int, int>, void,
+          void> f7 = (i, s, d, i2, li, map, _) => i + i2;
+
+      // ignore: omit_local_variable_types
+      final Func8<int, String, double, int, List<int>, Map<int, int>, void,
+          bool, bool> f8 = (i, s, d, i2, li, map, _, b) => b;
+
+      // ignore: omit_local_variable_types
+      final Func9<int, String, double, int, List<int>, Map<int, int>, void,
+          bool, bool, bool> f9 = (i, s, d, i2, li, map, _, b, b2) => b && b2;
+
+      [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9].forEach(print);
+    });
+
     test('DisposeCallbackBaseBloc', () {
       final dispose = MockDispose();
       when(dispose.call()).thenReturn(null);
