@@ -19,6 +19,9 @@ class DisposeCallbackBaseBloc implements BaseBloc {
 
 // Function types
 
+/// Represents a function that have no arguments and return no data.
+typedef VoidAction<R> = void Function();
+
 /// Represents a function with zero arguments: `() -> R`.
 typedef Func0<R> = R Function();
 

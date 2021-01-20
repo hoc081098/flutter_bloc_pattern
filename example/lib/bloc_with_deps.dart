@@ -22,7 +22,7 @@ class Dependencies {
 }
 
 class Bloc1 extends DisposeCallbackBaseBloc {
-  final Func0<void> load;
+  final VoidAction load;
 
   final DistinctValueStream<String?> string$;
 
