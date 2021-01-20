@@ -6,12 +6,14 @@ import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 class Dependencies {
+  var _i = 0;
+
   Dependencies() {
     print('$this::init');
   }
 
   Future<String> loadSomething() =>
-      Future.delayed(const Duration(seconds: 1), () => 'A string');
+      Future.delayed(const Duration(milliseconds: 500), () => 'String ${_i++}');
 
   void dispose() {
     print('$this::dispose');
@@ -43,6 +45,7 @@ class Bloc1 extends DisposeCallbackBaseBloc {
       dispose: () async {
         await connection.cancel();
         await loadS.close();
+        print('Bloc1::disposed');
       },
       load: () => loadS.add(null),
       string$: string$,

@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
       disposer: (d) => d.dispose(),
       child: MaterialApp(
         title: 'Flutter bloc pattern',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData.dark(),
         home: StartPage(),
       ),
     );
@@ -37,10 +35,10 @@ class StartPage extends StatelessWidget {
                   initBloc: (_) => CounterBloc(),
                   child: BlocProviders(
                     blocProviders: [
-                      BlocProvider(
+                      BlocProvider<Bloc1>(
                         initBloc: (context) => Bloc1(context.get()),
                       ),
-                      BlocProvider(
+                      BlocProvider<Bloc2>(
                         initBloc: (context) => Bloc2(context.bloc()),
                       ),
                     ],
@@ -74,15 +72,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('You have pushed the button this many times:'),
+            const SizedBox(height: 8),
             TextCounter1(),
             TextCounter2(),
+            const SizedBox(height: 8),
             TextBloc1(),
-            TextButton(
+            ElevatedButton(
               onPressed: () => context.bloc<Bloc2>(),
-              child: Text(
-                'Access Bloc 2',
-                style: Theme.of(context).textTheme.headline4,
-              ),
+              child: Text('Access Bloc 2'),
             )
           ],
         ),
@@ -104,7 +101,7 @@ class TextCounter1 extends StatelessWidget {
       builder: (context, state) {
         return Text(
           'COUNTER 1: $state',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headline6,
         );
       },
     );
@@ -123,7 +120,7 @@ class TextCounter2 extends StatelessWidget {
       builder: (context, state) {
         return Text(
           'COUNTER 2: $state',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headline6,
         );
       },
     );
@@ -153,10 +150,9 @@ class TextBloc1 extends StatelessWidget {
     return RxStreamBuilder<String?>(
       stream: bloc.string$,
       builder: (context, state) {
-        return TextButton(
+        return ElevatedButton(
           child: Text(
-            'BLOC 1: ${state ?? 'No data'}',
-            style: Theme.of(context).textTheme.headline4,
+            'BLOC 1: ${state ?? 'No data'}. Click to load',
           ),
           onPressed: bloc.load,
         );
