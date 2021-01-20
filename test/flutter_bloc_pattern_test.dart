@@ -37,7 +37,7 @@ class BlocCaptor<T extends BaseBloc> extends StatelessWidget {
   ],
 )
 void main() {
-  group('Flutter bloc pattern provider', () {
+  group('BlocProvider', () {
     testWidgets('passes a bloc down to its descendants',
         (WidgetTester tester) async {
       final bloc = MockBloc();
@@ -57,39 +57,51 @@ void main() {
       expect(captor.bloc, bloc);
     });
 
-    testWidgets('calls initBloc only once', (tester) async {
-      final builder = MockBaseBlocProvider();
+    testWidgets('calls initBloc only once, on first access', (tester) async {
+      final initBloc = MockBaseBlocProvider();
       final bloc = MockBloc();
-      when(builder.call(any)).thenReturn(bloc);
+
+      when(initBloc.call(any)).thenReturn(bloc);
       when(bloc.dispose()).thenReturn(null);
 
+      late BuildContext context;
       await tester.pumpWidget(
         BlocProvider<BaseBloc>(
-          child: Container(),
-          initBloc: builder,
+          child: Builder(
+            builder: (c) {
+              context = c;
+              return Container();
+            },
+          ),
+          initBloc: initBloc,
         ),
       );
-      await tester.pumpWidget(
-        BlocProvider<BaseBloc>(
-          child: Container(),
-          initBloc: builder,
-        ),
-      );
-      await tester.pumpWidget(Container());
 
-      verify(builder(any)).called(1);
+      verifyNever(initBloc.call(any));
+      expect(context.bloc<BaseBloc>(), bloc);
+      verify(initBloc(any)).called(1);
     });
 
     testWidgets('dispose', (tester) async {
       final bloc = MockBloc();
       when(bloc.dispose()).thenReturn(null);
 
-      final widget = BlocProvider<MockBloc>(
-        initBloc: (_) => bloc,
-        child: Container(),
+      late BuildContext context;
+      await tester.pumpWidget(
+        BlocProvider<MockBloc>(
+          initBloc: (_) => bloc,
+          child: Builder(
+            builder: (c) {
+              context = c;
+              return Container();
+            },
+          ),
+        ),
       );
-      await tester.pumpWidget(widget);
+
+      context.bloc<MockBloc>();
       await tester.pumpWidget(Container());
+
       verify(bloc.dispose()).called(1);
     });
   });
