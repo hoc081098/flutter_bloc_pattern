@@ -1,3 +1,7 @@
+## 2.0.0-nullsafety.1 - Jan 21, 2021
+
+-   Makes `RxStreamBuilder` extends `StreamBuilder`.
+
 ## 2.0.0-nullsafety.0 - Jan 20, 2021
 
 -   Migrate this package to null safety.
