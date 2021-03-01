@@ -1,3 +1,7 @@
+## 2.0.0 - Mar 1, 2021
+
+-   Stable release for null safety.
+
 ## 2.0.0-nullsafety.1 - Jan 21, 2021
 
 -   Makes `RxStreamBuilder` extends `StreamBuilder`.

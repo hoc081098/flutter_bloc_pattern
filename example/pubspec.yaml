@@ -7,15 +7,15 @@ environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
-  distinct_value_connectable_stream: ^1.2.0-nullsafety.2
-  rxdart_ext: ^0.0.1-nullsafety.2
+  distinct_value_connectable_stream: ^1.2.0-nullsafety.5
+  rxdart_ext: ^0.0.1
   flutter_bloc_pattern:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.1
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  pedantic: ^1.9.0
+  pedantic: ^1.10.0
   flutter_test:
     sdk: flutter
 
