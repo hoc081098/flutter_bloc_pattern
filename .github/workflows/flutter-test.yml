@@ -15,7 +15,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1.4.0
         with:
-          channel: 'dev'
+          channel: 'beta'
 
       - name: Doctor
         run: flutter doctor
