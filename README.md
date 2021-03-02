@@ -4,6 +4,7 @@ Base class, BLoC provider and `rxdart` builder for BLoC pattern in Flutter.
 
 [![Flutter test](https://github.com/hoc081098/flutter_bloc_pattern/workflows/Flutter%20test/badge.svg)](https://github.com/hoc081098/flutter_bloc_pattern/actions)
 [![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern.svg)](https://pub.dev/packages/flutter_bloc_pattern)
+[![Pub](https://img.shields.io/pub/v/flutter_bloc_pattern?include_prereleases)](https://pub.dev/packages/flutter_bloc_pattern)
 [![codecov](https://codecov.io/gh/hoc081098/flutter_bloc_pattern/branch/master/graph/badge.svg?token=yhrC5lmOqu)](https://codecov.io/gh/hoc081098/flutter_bloc_pattern)
 [![GitHub](https://img.shields.io/github/license/hoc081098/flutter_bloc_pattern?color=4EB1BA)](https://opensource.org/licenses/MIT)
 [![Style](https://img.shields.io/badge/style-pedantic-40c4ff.svg)](https://github.com/dart-lang/pedantic)
