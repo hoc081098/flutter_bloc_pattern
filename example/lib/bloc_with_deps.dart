@@ -24,7 +24,7 @@ class Dependencies {
 class Bloc1 extends DisposeCallbackBaseBloc {
   final VoidAction load;
 
-  final DistinctValueStream<String?> string$;
+  final DistinctValueStream<ValueWrapper<String?>> string$;
 
   Bloc1._({
     required void Function() dispose,
@@ -38,8 +38,8 @@ class Bloc1 extends DisposeCallbackBaseBloc {
 
     final string$ = loadS.stream
         .switchMap((value) => Rx.fromCallable(dependencies.loadSomething))
-        .cast<String?>()
-        .publishValueDistinct(null);
+        .map((event) => ValueWrapper<String?>(event))
+        .publishValueDistinct(ValueWrapper(null));
     final connection = string$.connect();
 
     return Bloc1._(

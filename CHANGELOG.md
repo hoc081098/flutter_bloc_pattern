@@ -1,3 +1,8 @@
+## 3.0.0 - TODO
+
+-   Update `rxdart` to `0.27.0`.
+-   `RxStreamBuilder` now accepts Stream whose type of event is **non-nullable** (`RxStreamBuilder<T extends Object>`).
+
 ## 2.0.0 - Mar 3, 2021
 
 -   Stable release for null safety.

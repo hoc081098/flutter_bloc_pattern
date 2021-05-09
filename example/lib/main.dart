@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_provider/flutter_provider.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'bloc_with_deps.dart';
 import 'counter_bloc.dart';
@@ -147,12 +148,12 @@ class TextBloc1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<Bloc1>();
 
-    return RxStreamBuilder<String?>(
+    return RxStreamBuilder<ValueWrapper<String?>>(
       stream: bloc.string$,
       builder: (context, state) {
         return ElevatedButton(
           child: Text(
-            'BLOC 1: ${state ?? 'No data'}. Click to load',
+            'BLOC 1: ${state.value ?? 'No data'}. Click to load',
           ),
           onPressed: bloc.load,
         );

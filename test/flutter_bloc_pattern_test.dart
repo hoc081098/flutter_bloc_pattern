@@ -264,7 +264,7 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
         RxStreamBuilder<String>(
           stream: controller.stream.shareValueDistinct(seeded),
           builder: (context, s) {
-            events.add(s!);
+            events.add(s);
 
             return Text(s, textDirection: TextDirection.ltr);
           },
@@ -295,7 +295,7 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       await tester.pumpWidget(
         RxStreamBuilder<String>(
           stream: controller.stream.shareValueSeeded(seeded),
-          builder: (context, s) => Text(s!, textDirection: TextDirection.ltr),
+          builder: (context, s) => Text(s, textDirection: TextDirection.ltr),
         ),
       );
       await tester.pumpAndSettle(const Duration(seconds: 1));
