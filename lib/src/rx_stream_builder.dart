@@ -5,8 +5,6 @@ import 'package:rxdart/rxdart.dart';
 
 import 'error.dart';
 
-// ignore_for_file: unnecessary_null_comparison
-
 /// Signature for strategies that build widgets based on asynchronous interaction.
 typedef RxWidgetBuilder<T> = Widget Function(BuildContext context, T data);
 
@@ -30,9 +28,7 @@ class RxStreamBuilder<T> extends StatefulWidget {
     Key? key,
     required ValueStream<T> stream,
     required RxWidgetBuilder<T> builder,
-  })   : assert(builder != null),
-        assert(stream != null),
-        _builder = builder,
+  })   : _builder = builder,
         _stream = stream;
 
   @override

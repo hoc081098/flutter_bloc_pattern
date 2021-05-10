@@ -10,8 +10,7 @@ class DisposeCallbackBaseBloc implements BaseBloc {
   final void Function() _dispose;
 
   /// Create a [DisposeCallbackBaseBloc] by a dispose callback.
-  // ignore: unnecessary_null_comparison
-  DisposeCallbackBaseBloc(this._dispose) : assert(_dispose != null);
+  DisposeCallbackBaseBloc(this._dispose);
 
   @override
   void dispose() => _dispose();
