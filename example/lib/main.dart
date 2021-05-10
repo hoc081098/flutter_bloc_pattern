@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_provider/flutter_provider.dart';
-import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'bloc_with_deps.dart';
 import 'counter_bloc.dart';
