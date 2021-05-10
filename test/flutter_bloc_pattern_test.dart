@@ -189,31 +189,18 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
   group('RxStreamBuilder', () {
     test('Get initial data', () {
       expect(
-        RxStreamBuilder.getInitialData<int>(1, Stream.empty()),
-        1,
-      );
-      expect(
-        RxStreamBuilder.getInitialData(1, Stream.fromIterable([2, 3, 4])),
-        1,
-      );
-
-      //
-      //
-
-      expect(
-        RxStreamBuilder.getInitialData(1, BehaviorSubject.seeded(2)),
-        1,
-      );
-      expect(
-        RxStreamBuilder.getInitialData(null, BehaviorSubject.seeded(2)),
+        RxStreamBuilder.getInitialData(BehaviorSubject.seeded(2)),
         2,
       );
       expect(
-        RxStreamBuilder.getInitialData(
-          null,
+        () => RxStreamBuilder.getInitialData(BehaviorSubject<int>()),
+        throwsArgumentError,
+      );
+      expect(
+        () => RxStreamBuilder.getInitialData(
           BehaviorSubject<int>()..addError('Error'),
         ),
-        isNull,
+        throwsArgumentError,
       );
 
       //
@@ -221,32 +208,12 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
 
       expect(
         RxStreamBuilder.getInitialData<int>(
-          null,
-          ReplaySubject(maxSize: 2)..add(1)..add(2)..add(3)..add(4),
-        ),
-        4,
-      );
-      expect(
-        RxStreamBuilder.getInitialData<int>(
-          null,
-          ReplaySubject(maxSize: 2),
-        ),
-        isNull,
-      );
-
-      //
-      //
-
-      expect(
-        RxStreamBuilder.getInitialData<int>(
-          null,
           Stream<int>.empty().shareValueDistinct(2),
         ),
         2,
       );
       expect(
         RxStreamBuilder.getInitialData<int>(
-          null,
           Stream<int>.empty().publishValueDistinct(3),
         ),
         3,

@@ -33,8 +33,11 @@ class UnhandledStreamError extends Error {
   /// Error emitted from [Stream].
   final Object error;
 
+  @override
+  final StackTrace stackTrace;
+
   /// Create a [UnhandledStreamError] from [error].
-  UnhandledStreamError(this.error);
+  UnhandledStreamError(this.error, this.stackTrace);
 
   @override
   String toString() {

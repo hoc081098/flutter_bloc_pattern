@@ -148,12 +148,12 @@ class TextBloc1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.bloc<Bloc1>();
 
-    return RxStreamBuilder<ValueWrapper<String?>>(
+    return RxStreamBuilder<String?>(
       stream: bloc.string$,
       builder: (context, state) {
         return ElevatedButton(
           child: Text(
-            'BLOC 1: ${state.value ?? 'No data'}. Click to load',
+            'BLOC 1: ${state ?? 'No data'}. Click to load',
           ),
           onPressed: bloc.load,
         );
