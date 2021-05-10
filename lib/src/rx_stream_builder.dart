@@ -28,8 +28,8 @@ class RxStreamBuilder<T> extends StatefulWidget {
   /// effects as it may be called multiple times.
   RxStreamBuilder({
     Key? key,
-    required RxWidgetBuilder<T> builder,
     required ValueStream<T> stream,
+    required RxWidgetBuilder<T> builder,
   })   : assert(builder != null),
         assert(stream != null),
         _builder = builder,

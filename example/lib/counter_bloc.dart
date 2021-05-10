@@ -22,7 +22,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
     final incrementController = StreamController<void>();
 
     final state = incrementController.stream
-        .scan<int>((acc, _, __) => acc+ 1, 0)
+        .scan<int>((acc, _, __) => acc + 1, 0)
         .publishValueDistinct(0);
     final connection = state.connect();
 
