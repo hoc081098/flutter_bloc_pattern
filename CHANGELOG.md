@@ -1,4 +1,4 @@
-## 2.1.0 - TODO
+## 2.1.0 - May 10, 2021
 
 -   Update `rxdart` to `0.27.0`.
 -   `RxStreamBuilder` now accepts a `ValueStream`.
