@@ -84,7 +84,7 @@ class _RxStreamBuilderState<T> extends State<RxStreamBuilder<T>> {
       onError: (Object e, StackTrace s) {
         FlutterError.reportError(
           FlutterErrorDetails(
-            exception: UnhandledStreamError(e, s),
+            exception: UnhandledStreamError(e),
             stack: s,
             library: 'flutter_bloc_pattern',
           ),
