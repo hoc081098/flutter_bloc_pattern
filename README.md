@@ -57,7 +57,7 @@ import 'package:rxdart_ext/rxdart_ext.dart';
 
 class CounterBloc extends DisposeCallbackBaseBloc {
   /// Inputs
-  final void Function() increment;
+  final VoidAction increment;
 
   /// Outputs
   final DistinctValueStream<int> state;
@@ -73,7 +73,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
     final incrementController = StreamController<void>();
 
     final state = incrementController.stream
-        .scan<int>((acc, _, __) => acc! + 1, 0)
+        .scan<int>((acc, _, __) => acc + 1, 0)
         .publishValueDistinct(0);
     final connection = state.connect();
 
@@ -81,7 +81,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
       dispose: () async {
         await connection.cancel();
         await incrementController.close();
-        print('>>> disposed');
+        print('CounterBloc::disposed');
       },
       increment: () => incrementController.add(null),
       state: state,
@@ -97,71 +97,6 @@ import 'package:example/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter bloc pattern',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: StartPage(),
-    );
-  }
-}
-
-class StartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: TextButton(
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return BlocProvider<CounterBloc>(
-                  child: MyHomePage(),
-                  initBloc: () => CounterBloc(),
-                );
-              },
-            ),
-          ),
-          child: Text('GO TO HOME'),
-        ),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text('You have pushed the button this many times:'),
-            TextCounter1(),
-            TextCounter2(),
-          ],
-        ),
-      ),
-      floatingActionButton: const IncrementButton(),
-    );
-  }
-}
-
 class TextCounter1 extends StatelessWidget {
   const TextCounter1({Key? key}) : super(key: key);
 
@@ -171,29 +106,10 @@ class TextCounter1 extends StatelessWidget {
 
     return RxStreamBuilder<int>(
       stream: bloc.state,
-      builder: (context, data) {
+      builder: (context, state) {
         return Text(
-          'COUNTER 1: $data',
-          style: Theme.of(context).textTheme.headline4,
-        );
-      },
-    );
-  }
-}
-
-class TextCounter2 extends StatelessWidget {
-  const TextCounter2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.bloc<CounterBloc>();
-
-    return RxStreamBuilder<int>(
-      stream: bloc.state,
-      builder: (context, data) {
-        return Text(
-          'COUNTER 2: $data',
-          style: Theme.of(context).textTheme.headline4,
+          'COUNTER 1: $state',
+          style: Theme.of(context).textTheme.headline6,
         );
       },
     );
@@ -214,4 +130,5 @@ class IncrementButton extends StatelessWidget {
     );
   }
 }
+
 ```
