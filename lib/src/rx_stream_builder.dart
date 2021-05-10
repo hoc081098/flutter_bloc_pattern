@@ -5,15 +5,16 @@ import 'package:rxdart/rxdart.dart';
 
 import 'error.dart';
 
-// ignore_for_file: unnecessary_null_comparison
-
 /// Signature for strategies that build widgets based on asynchronous interaction.
-typedef RxWidgetBuilder<T> = Widget Function(BuildContext context, T? data);
+typedef RxWidgetBuilder<T> = Widget Function(BuildContext context, T data);
 
 /// Rx stream builder that will pre-populate the streams initial data if the
 /// given stream is an stream that holds the streams current value such
 /// as a [ValueStream] or a [ReplayStream]
-class RxStreamBuilder<T> extends StreamBuilder<T> {
+class RxStreamBuilder<T> extends StatefulWidget {
+  final RxWidgetBuilder<T> _builder;
+  final ValueStream<T> _stream;
+
   /// Creates a new [RxStreamBuilder] that builds itself based on the latest
   /// snapshot of interaction with the specified [stream] and whose build
   /// strategy is given by [builder].
@@ -25,45 +26,71 @@ class RxStreamBuilder<T> extends StreamBuilder<T> {
   /// effects as it may be called multiple times.
   RxStreamBuilder({
     Key? key,
+    required ValueStream<T> stream,
     required RxWidgetBuilder<T> builder,
-    required Stream<T> stream,
-    T? initialData,
-  })  : assert(builder != null),
-        assert(stream != null),
-        super(
-          key: key,
-          initialData: getInitialData(initialData, stream),
-          builder: _createStreamBuilder<T>(builder),
-          stream: stream,
-        );
+  })   : _builder = builder,
+        _stream = stream;
+
+  @override
+  _RxStreamBuilderState<T> createState() => _RxStreamBuilderState();
 
   /// Get latest value from stream or return `null`.
   @visibleForTesting
-  static T? getInitialData<T>(T? initialData, Stream<T> stream) {
-    if (initialData != null) {
-      return initialData;
+  static T getInitialData<T>(ValueStream<T> stream) {
+    if (stream.hasValue) {
+      return stream.value;
     }
+    throw ArgumentError.value(stream, 'stream', 'does not have value');
+  }
+}
 
-    if (stream is ValueStream<T> && stream.hasValue) {
-      return stream.requireValue;
-    }
+class _RxStreamBuilderState<T> extends State<RxStreamBuilder<T>> {
+  late T value;
+  StreamSubscription<T>? subscription;
 
-    if (stream is ReplayStream<T>) {
-      final values = stream.values;
-      if (values.isNotEmpty) {
-        return values.last;
-      }
-    }
-
-    return null;
+  @override
+  void initState() {
+    super.initState();
+    subscribe();
   }
 
-  static AsyncWidgetBuilder<T> _createStreamBuilder<T>(
-          RxWidgetBuilder<T> builder) =>
-      (context, snapshot) {
-        if (snapshot.hasError) {
-          throw UnhandledStreamError(snapshot.error!);
-        }
-        return builder(context, snapshot.data);
-      };
+  @override
+  void didUpdateWidget(covariant RxStreamBuilder<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget._stream != widget._stream) {
+      unsubscribe();
+      subscribe();
+    }
+  }
+
+  @override
+  void dispose() {
+    unsubscribe();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget._builder(context, value);
+
+  void subscribe() {
+    value = RxStreamBuilder.getInitialData(widget._stream);
+
+    subscription = widget._stream.listen(
+      (v) => setState(() => value = v),
+      onError: (Object e, StackTrace s) {
+        FlutterError.reportError(
+          FlutterErrorDetails(
+            exception: UnhandledStreamError(e),
+            stack: s,
+            library: 'flutter_bloc_pattern',
+          ),
+        );
+      },
+    );
+  }
+
+  void unsubscribe() {
+    subscription?.cancel();
+    subscription = null;
+  }
 }

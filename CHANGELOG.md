@@ -1,3 +1,8 @@
+## 2.1.0 - May 10, 2021
+
+-   Update `rxdart` to `0.27.0`.
+-   `RxStreamBuilder` now accepts a `ValueStream`.
+
 ## 2.0.0 - Mar 3, 2021
 
 -   Stable release for null safety.

@@ -4,8 +4,6 @@ import 'package:flutter_provider/flutter_provider.dart';
 import 'base.dart';
 import 'error.dart';
 
-// ignore_for_file: unnecessary_null_comparison
-
 /// Provides [BaseBloc] to all descendants of this Widget. This should
 /// generally be a root widget in your App
 class BlocProvider<T extends BaseBloc> extends StatelessWidget {
@@ -116,8 +114,7 @@ class BlocProviders extends Providers {
     Key? key,
     required List<BlocProvider> blocProviders,
     required Widget child,
-  })   : assert(blocProviders != null && blocProviders.isNotEmpty),
-        assert(child != null),
+  })   : assert(blocProviders.isNotEmpty),
         super(
           key: key,
           providers:
