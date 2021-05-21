@@ -114,7 +114,7 @@ class BlocProviders extends Providers {
     Key? key,
     required List<BlocProvider> blocProviders,
     required Widget child,
-  })   : assert(blocProviders.isNotEmpty),
+  })  : assert(blocProviders.isNotEmpty),
         super(
           key: key,
           providers:
