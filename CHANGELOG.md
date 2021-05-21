@@ -1,3 +1,7 @@
+## 2.1.1 - May 21, 2021
+
+-   Fix `RxStreamBuilder`: missing pass `Key? key` to parent constructor.
+
 ## 2.1.0 - May 10, 2021
 
 -   Update `rxdart` to `0.27.0`.

@@ -147,13 +147,13 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       late BuildContext context;
       await tester.pumpWidget(
         BlocProvider<BaseBloc>(
+          initBloc: initBloc,
           child: Builder(
             builder: (c) {
               context = c;
               return Container();
             },
           ),
-          initBloc: initBloc,
         ),
       );
 
@@ -300,11 +300,11 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
     test('Empty bloc providers throws AssertError', () {
       expect(
         () => BlocProviders(
+          blocProviders: [],
           child: Text(
             'Hello',
             textDirection: TextDirection.ltr,
           ),
-          blocProviders: [],
         ),
         throwsAssertionError,
       );

@@ -28,8 +28,9 @@ class RxStreamBuilder<T> extends StatefulWidget {
     Key? key,
     required ValueStream<T> stream,
     required RxWidgetBuilder<T> builder,
-  })   : _builder = builder,
-        _stream = stream;
+  })  : _builder = builder,
+        _stream = stream,
+        super(key: key);
 
   @override
   _RxStreamBuilderState<T> createState() => _RxStreamBuilderState();

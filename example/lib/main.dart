@@ -151,10 +151,10 @@ class TextBloc1 extends StatelessWidget {
       stream: bloc.string$,
       builder: (context, state) {
         return ElevatedButton(
+          onPressed: bloc.load,
           child: Text(
             'BLOC 1: ${state ?? 'No data'}. Click to load',
           ),
-          onPressed: bloc.load,
         );
       },
     );
