@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -46,7 +47,7 @@ class RxStreamBuilder<T> extends StatefulWidget {
   @override
   _RxStreamBuilderState<T> createState() => _RxStreamBuilderState();
 
-  /// Get latest value from stream or return `null`.
+  /// Get latest value from stream or throw an [ArgumentError].
   @visibleForTesting
   static T getInitialData<T>(ValueStream<T> stream) {
     if (stream is StateStream<T>) {
@@ -55,7 +56,7 @@ class RxStreamBuilder<T> extends StatefulWidget {
     if (stream.hasValue) {
       return stream.value;
     }
-    throw ArgumentError.value(stream, 'stream', 'does not have value');
+    throw ArgumentError.value(stream, 'stream', 'has no value');
   }
 }
 
@@ -122,5 +123,13 @@ class _RxStreamBuilderState<T> extends State<RxStreamBuilder<T>> {
   void unsubscribe() {
     subscription?.cancel();
     subscription = null;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty.lazy('value', () => value));
+    properties.add(DiagnosticsProperty('subscription', subscription));
+    properties.add(DiagnosticsProperty('stream', widget._stream));
   }
 }

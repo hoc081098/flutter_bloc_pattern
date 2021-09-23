@@ -51,7 +51,6 @@ class MyBloc implements BaseBloc {
 ```dart
 import 'dart:async';
 
-import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -60,7 +59,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
   final VoidAction increment;
 
   /// Outputs
-  final DistinctValueStream<int> state;
+  final StateStream<int> state;
 
   CounterBloc._({
     required void Function() dispose,
@@ -74,7 +73,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
 
     final state = incrementController.stream
         .scan<int>((acc, _, __) => acc + 1, 0)
-        .publishValueDistinct(0);
+        .publishState(0);
     final connection = state.connect();
 
     return CounterBloc._(
@@ -88,7 +87,6 @@ class CounterBloc extends DisposeCallbackBaseBloc {
     );
   }
 }
-
 ```
 
 ### 2. File `main.dart`:
