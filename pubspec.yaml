@@ -6,14 +6,14 @@ repository: https://github.com/hoc081098/flutter_bloc_pattern.git
 issue_tracker: https://github.com/hoc081098/flutter_bloc_pattern/issues
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-  flutter: '>=2.0.0'
+  sdk: '>=2.14.0 <3.0.0'
+  flutter: '>=2.5.0'
 
 dependencies:
   flutter:
     sdk: flutter
   rxdart_ext: ^0.1.2
-  flutter_provider: ^2.0.0
+  flutter_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:
