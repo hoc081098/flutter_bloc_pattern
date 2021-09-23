@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'error.dart';
 
@@ -12,6 +13,16 @@ typedef RxWidgetBuilder<T> = Widget Function(BuildContext context, T data);
 /// given stream is an stream that holds the streams current value such
 /// as a [ValueStream] or a [ReplayStream]
 class RxStreamBuilder<T> extends StatefulWidget {
+  /// @experimental
+  /// Set to `true` to check invalid state caused by [StateStream]s.
+  ///
+  /// ## Example
+  /// ```dart
+  /// // enable when running in debug or profile mode
+  /// RxStreamBuilder.checkStateStreamEnabled = !kReleaseMode;
+  /// ```
+  static var checkStateStreamEnabled = false;
+
   final RxWidgetBuilder<T> _builder;
   final ValueStream<T> _stream;
 
@@ -24,7 +35,7 @@ class RxStreamBuilder<T> extends StatefulWidget {
   ///
   /// The [builder] must not be null. It must only return a widget and should not have any side
   /// effects as it may be called multiple times.
-  RxStreamBuilder({
+  const RxStreamBuilder({
     Key? key,
     required ValueStream<T> stream,
     required RxWidgetBuilder<T> builder,
@@ -38,6 +49,9 @@ class RxStreamBuilder<T> extends StatefulWidget {
   /// Get latest value from stream or return `null`.
   @visibleForTesting
   static T getInitialData<T>(ValueStream<T> stream) {
+    if (stream is StateStream<T>) {
+      return stream.value;
+    }
     if (stream.hasValue) {
       return stream.value;
     }
@@ -74,10 +88,25 @@ class _RxStreamBuilderState<T> extends State<RxStreamBuilder<T>> {
   Widget build(BuildContext context) => widget._builder(context, value);
 
   void subscribe() {
-    value = RxStreamBuilder.getInitialData(widget._stream);
+    final stream = widget._stream;
+    value = RxStreamBuilder.getInitialData(stream);
 
-    subscription = widget._stream.listen(
-      (v) => setState(() => value = v),
+    subscription = stream.listen(
+      (v) {
+        if (RxStreamBuilder.checkStateStreamEnabled &&
+            stream is StateStream<T> &&
+            stream.equals(value, v)) {
+          FlutterError.reportError(
+            FlutterErrorDetails(
+              exception: InvalidStateStreamError(stream, value),
+              stack: StackTrace.current,
+              library: 'flutter_bloc_pattern',
+            ),
+          );
+        }
+
+        setState(() => value = v);
+      },
       onError: (Object e, StackTrace s) {
         FlutterError.reportError(
           FlutterErrorDetails(

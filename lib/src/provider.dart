@@ -18,12 +18,13 @@ class BlocProvider<T extends BaseBloc> extends StatelessWidget {
     Key? key,
     required T Function(BuildContext) initBloc,
     Widget? child,
-  }) : _provider = Provider<T>.factory(
+  })  : _provider = Provider<T>.factory(
           initBloc,
           key: key,
           disposer: (bloc) => bloc.dispose(),
           child: child,
-        );
+        ),
+        super(key: key);
 
   /// A method that can be called by descendant Widgets to retrieve the bloc
   /// from the [BlocProvider].

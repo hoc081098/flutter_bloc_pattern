@@ -1,3 +1,5 @@
+import 'package:rxdart_ext/rxdart_ext.dart';
+
 import 'rx_stream_builder.dart';
 
 /// If the BlocProvider.of method fails, this error will be thrown.
@@ -33,7 +35,7 @@ class UnhandledStreamError extends Error {
   /// Error emitted from [Stream].
   final Object error;
 
-  /// Create a [UnhandledStreamError] from [error].
+  /// Create an [UnhandledStreamError] from [error].
   UnhandledStreamError(this.error);
 
   @override
@@ -52,4 +54,21 @@ If none of these solutions work, please file a bug at:
 https://github.com/hoc081098/flutter_bloc_pattern/issues/new
 ''';
   }
+}
+
+/// Invalid state error caused by a [StateStream].
+class InvalidStateStreamError<T> extends Error {
+  /// The [StateStream] causes this error.
+  final StateStream<T> stream;
+
+  /// The value causes this error.
+  final T value;
+
+  /// Create an [InvalidStateStreamError].
+  InvalidStateStreamError(this.stream, this.value);
+
+  @override
+  String toString() =>
+      'Invalid state caused by ${stream.runtimeType} ~ ${identityHashCode(stream)} ~ $stream. '
+      'Two consecutive values are equal, the value is $value';
 }
