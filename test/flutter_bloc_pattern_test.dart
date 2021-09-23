@@ -8,7 +8,6 @@ import 'package:flutter_test/flutter_test.dart'
     hide Func0, Func1, Func2, Func3, Func4, Func5, Func6;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'flutter_bloc_pattern_test.mocks.dart';
