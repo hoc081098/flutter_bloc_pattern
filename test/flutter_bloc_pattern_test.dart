@@ -1,6 +1,7 @@
+// ignore_for_file: prefer_function_declarations_over_variables, avoid_print
+
 import 'dart:async';
 
-import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_test/flutter_test.dart'
@@ -8,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart'
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'flutter_bloc_pattern_test.mocks.dart';
 
@@ -45,6 +47,8 @@ class BlocCaptor<T extends BaseBloc> extends StatelessWidget {
   ],
 )
 void main() {
+  RxStreamBuilder.checkStateStreamEnabled = true;
+
   group('Base and Error', () {
     test('Function types', () {
       // ignore: omit_local_variable_types
@@ -208,13 +212,13 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
 
       expect(
         RxStreamBuilder.getInitialData<int>(
-          Stream<int>.empty().shareValueDistinct(2),
+          const Stream<int>.empty().shareState(2),
         ),
         2,
       );
       expect(
         RxStreamBuilder.getInitialData<int>(
-          Stream<int>.empty().publishValueDistinct(3),
+          const Stream<int>.empty().publishState(3),
         ),
         3,
       );
@@ -222,14 +226,14 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
 
     testWidgets('Build with latest value from Stream', (tester) async {
       final controller = StreamController<String>();
-      final seeded = 'Seeded';
-      final event1 = 'Emitted 1';
-      final event2 = 'Emitted 2';
+      const seeded = 'Seeded';
+      const event1 = 'Emitted 1';
+      const event2 = 'Emitted 2';
       final events = <String>[];
 
       await tester.pumpWidget(
         RxStreamBuilder<String>(
-          stream: controller.stream.shareValueDistinct(seeded),
+          stream: controller.stream.shareState(seeded),
           builder: (context, s) {
             events.add(s);
 
@@ -257,7 +261,7 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
           (errorDetails) => completer.complete(errorDetails.exception);
 
       final controller = StreamController<String>();
-      final seeded = 'Seeded';
+      const seeded = 'Seeded';
 
       await tester.pumpWidget(
         RxStreamBuilder<String>(
@@ -300,8 +304,8 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
     test('Empty bloc providers throws AssertError', () {
       expect(
         () => BlocProviders(
-          blocProviders: [],
-          child: Text(
+          blocProviders: const [],
+          child: const Text(
             'Hello',
             textDirection: TextDirection.ltr,
           ),
@@ -396,5 +400,9 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       expect(BlocProvider.of<BlocB>(keyChild.currentContext!), blocB);
       expect(BlocProvider.of<BlocC>(keyChild.currentContext!), blocC);
     });
+  });
+
+  test('InvalidStateStreamError', () {
+    print(InvalidStateStreamError(Stream.value(1).shareState(2), 2).toString());
   });
 }

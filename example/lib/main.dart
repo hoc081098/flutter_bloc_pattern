@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_provider/flutter_provider.dart';
@@ -5,9 +6,14 @@ import 'package:flutter_provider/flutter_provider.dart';
 import 'bloc_with_deps.dart';
 import 'counter_bloc.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  RxStreamBuilder.checkStateStreamEnabled = !kReleaseMode;
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Provider<Dependencies>.factory(
@@ -16,46 +22,48 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter bloc pattern',
         theme: ThemeData.dark(),
-        home: StartPage(),
+        home: const StartPage(),
       ),
     );
   }
 }
 
 class StartPage extends StatelessWidget {
+  const StartPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: TextButton(
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return BlocProvider<CounterBloc>(
-                  initBloc: (_) => CounterBloc(),
-                  child: BlocProviders(
-                    blocProviders: [
-                      BlocProvider<Bloc1>(
-                        initBloc: (context) => Bloc1(context.get()),
-                      ),
-                      BlocProvider<Bloc2>(
-                        initBloc: (context) => Bloc2(context.bloc()),
-                      ),
-                    ],
-                    child: MyHomePage(),
-                  ),
-                );
-              },
-            ),
+    return Center(
+      child: TextButton(
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return BlocProvider<CounterBloc>(
+                initBloc: (_) => CounterBloc(),
+                child: BlocProviders(
+                  blocProviders: [
+                    BlocProvider<Bloc1>(
+                      initBloc: (context) => Bloc1(context.get()),
+                    ),
+                    BlocProvider<Bloc2>(
+                      initBloc: (context) => Bloc2(context.bloc()),
+                    ),
+                  ],
+                  child: const MyHomePage(),
+                ),
+              );
+            },
           ),
-          child: Text('GO TO HOME'),
         ),
+        child: const Text('GO TO HOME'),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -65,21 +73,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home page'),
+        title: const Text('Home page'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('You have pushed the button this many times:'),
+            const Text('You have pushed the button this many times:'),
             const SizedBox(height: 8),
-            TextCounter1(),
-            TextCounter2(),
+            const TextCounter1(),
+            const TextCounter2(),
             const SizedBox(height: 8),
-            TextBloc1(),
+            const TextBloc1(),
+            const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () => context.bloc<Bloc2>(),
-              child: Text('Access Bloc 2'),
+              child: const Text('Access Bloc 2'),
             )
           ],
         ),
@@ -137,12 +146,14 @@ class IncrementButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: bloc.increment,
       tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
 
 class TextBloc1 extends StatelessWidget {
+  const TextBloc1({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.bloc<Bloc1>();

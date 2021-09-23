@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 
-import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -24,7 +25,7 @@ class Dependencies {
 class Bloc1 extends DisposeCallbackBaseBloc {
   final VoidAction load;
 
-  final DistinctValueStream<String?> string$;
+  final StateStream<String?> string$;
 
   Bloc1._({
     required void Function() dispose,
@@ -39,7 +40,7 @@ class Bloc1 extends DisposeCallbackBaseBloc {
     final string$ = loadS.stream
         .switchMap((value) => Rx.fromCallable(dependencies.loadSomething))
         .cast<String?>()
-        .publishValueDistinct(null);
+        .publishState(null);
     final connection = string$.connect();
 
     return Bloc1._(
