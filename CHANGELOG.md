@@ -1,3 +1,16 @@
+### 2.2.0 - Sep 23, 2021
+
+-   Update dependencies:
+    - `rxdart_ext` to `0.1.2`.
+    - `flutter_provider` to `2.1.0`.
+-   Change sdk constraint `>=2.14.0 <3.0.0` and flutter constraint `>=2.5.0`.
+-   Migrated from `pedantic` to `flutter_lints`.
+-   Added `RxStreamBuilder.checkStateStreamEnabled` allows checking invalid state caused by `StateStream`s.
+    ```dart
+    // enabled when running in debug or profile mode
+    RxStreamBuilder.checkStateStreamEnabled = !kReleaseMode;
+    ```
+
 ## 2.1.1 - May 21, 2021
 
 -   Fix `RxStreamBuilder`: missing pass `Key? key` to parent constructor.

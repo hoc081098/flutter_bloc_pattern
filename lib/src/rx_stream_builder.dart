@@ -19,7 +19,7 @@ class RxStreamBuilder<T> extends StatefulWidget {
   ///
   /// ## Example
   /// ```dart
-  /// // enable when running in debug or profile mode
+  /// // enabled when running in debug or profile mode
   /// RxStreamBuilder.checkStateStreamEnabled = !kReleaseMode;
   /// ```
   static var checkStateStreamEnabled = false;
