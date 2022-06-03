@@ -1,6 +1,6 @@
 name: flutter_bloc_pattern
 description: Bloc provider. Provides bloc to descendant widget (O(1)), and the bloc is disposed appropriately by state which the bloc_provider holds internally.
-version: 2.2.0
+version: 2.3.0
 homepage: https://github.com/hoc081098/flutter_bloc_pattern.git
 repository: https://github.com/hoc081098/flutter_bloc_pattern.git
 issue_tracker: https://github.com/hoc081098/flutter_bloc_pattern/issues
@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart_ext: ^0.2.0
+  rxdart_ext: ^0.2.2
   flutter_provider: ^2.1.0
 
 dev_dependencies:
