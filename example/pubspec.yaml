@@ -7,7 +7,7 @@ environment:
   sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
-  rxdart_ext: ^0.1.2
+  rxdart_ext: ^0.2.0
   flutter_bloc_pattern:
   flutter:
     sdk: flutter
