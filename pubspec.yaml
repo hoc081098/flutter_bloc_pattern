@@ -6,7 +6,7 @@ repository: https://github.com/hoc081098/flutter_bloc_pattern.git
 issue_tracker: https://github.com/hoc081098/flutter_bloc_pattern/issues
 
 environment:
-  sdk: '>=2.14.0 <3.0.0'
+  sdk: '<4.0.0'
   flutter: '>=2.5.0'
 
 dependencies:
