@@ -6,18 +6,20 @@ repository: https://github.com/hoc081098/flutter_bloc_pattern.git
 issue_tracker: https://github.com/hoc081098/flutter_bloc_pattern/issues
 
 environment:
-  sdk: '>=2.14.0 <3.0.0'
-  flutter: '>=2.5.0'
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  rxdart_ext: ^0.2.2
+  rxdart_ext: ^0.3.0
   flutter_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^5.0.16
-  build_runner: ^2.1.2
-  flutter_lints: ^1.0.4
+  mockito: ^5.4.4
+  build_runner: ^2.4.9
+  flutter_lints: ^4.0.0
+
+# dart run build_runner build --delete-conflicting-outputs

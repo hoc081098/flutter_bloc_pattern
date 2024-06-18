@@ -12,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class StartPage extends StatelessWidget {
-  const StartPage({Key? key}) : super(key: key);
+  const StartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class StartPage extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -80,12 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             const TextCounter1(),
             const TextCounter2(),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             const TextBloc1(),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => context.bloc<Bloc2>(),
               child: const Text('Access Bloc 2'),
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class TextCounter1 extends StatelessWidget {
-  const TextCounter1({Key? key}) : super(key: key);
+  const TextCounter1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class TextCounter1 extends StatelessWidget {
       builder: (context, state) {
         return Text(
           'COUNTER 1: $state',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         );
       },
     );
@@ -118,7 +118,7 @@ class TextCounter1 extends StatelessWidget {
 }
 
 class TextCounter2 extends StatelessWidget {
-  const TextCounter2({Key? key}) : super(key: key);
+  const TextCounter2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class TextCounter2 extends StatelessWidget {
       builder: (context, state) {
         return Text(
           'COUNTER 2: $state',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         );
       },
     );
@@ -137,7 +137,7 @@ class TextCounter2 extends StatelessWidget {
 }
 
 class IncrementButton extends StatelessWidget {
-  const IncrementButton({Key? key}) : super(key: key);
+  const IncrementButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,7 @@ class IncrementButton extends StatelessWidget {
 }
 
 class TextBloc1 extends StatelessWidget {
-  const TextBloc1({Key? key}) : super(key: key);
+  const TextBloc1({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -36,15 +36,14 @@ class RxStreamBuilder<T> extends StatefulWidget {
   /// The [builder] must not be null. It must only return a widget and should not have any side
   /// effects as it may be called multiple times.
   const RxStreamBuilder({
-    Key? key,
+    super.key,
     required ValueStream<T> stream,
     required RxWidgetBuilder<T> builder,
   })  : _builder = builder,
-        _stream = stream,
-        super(key: key);
+        _stream = stream;
 
   @override
-  _RxStreamBuilderState<T> createState() => _RxStreamBuilderState();
+  State<RxStreamBuilder<T>> createState() => _RxStreamBuilderState();
 
   /// Get latest value from stream or throw an [ArgumentError].
   @visibleForTesting

@@ -96,7 +96,7 @@ void main() {
       when(dispose.call()).thenReturn(null);
 
       verifyNever(dispose.call());
-      DisposeCallbackBaseBloc(dispose).dispose();
+      DisposeCallbackBaseBloc(dispose.call).dispose();
 
       verify(dispose.call()).called(1);
     });
@@ -150,7 +150,7 @@ https://github.com/hoc081098/flutter_bloc_pattern/issues/new
       late BuildContext context;
       await tester.pumpWidget(
         BlocProvider<BaseBloc>(
-          initBloc: initBloc,
+          initBloc: initBloc.call,
           child: Builder(
             builder: (c) {
               context = c;

@@ -1,7 +1,6 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
 
+import 'package:disposebag/disposebag.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -19,22 +18,16 @@ class CounterBloc extends DisposeCallbackBaseBloc {
   }) : super(dispose);
 
   factory CounterBloc() {
-    // ignore: close_sinks
     final incrementController = StreamController<void>();
 
-    final state = incrementController.stream
+    final state$ = incrementController.stream
         .scan<int>((acc, _, __) => acc + 1, 0)
         .publishState(0);
-    final connection = state.connect();
 
     return CounterBloc._(
-      dispose: () async {
-        await connection.cancel();
-        await incrementController.close();
-        print('CounterBloc::disposed');
-      },
-      increment: () => incrementController.add(null),
-      state: state,
+      dispose: DisposeBag([incrementController, state$.connect()]).dispose,
+      increment: incrementController.addNull,
+      state: state$,
     );
   }
 }

@@ -15,16 +15,15 @@ class BlocProvider<T extends BaseBloc> extends StatelessWidget {
   /// [BaseBloc.dispose] will be called when [BlocProvider] is removed from the tree permanently
   /// ([State.dispose] called).
   BlocProvider({
-    Key? key,
+    super.key,
     required T Function(BuildContext) initBloc,
     Widget? child,
-  })  : _provider = Provider<T>.factory(
+  }) : _provider = Provider<T>.factory(
           initBloc,
           key: key,
           disposer: (bloc) => bloc.dispose(),
           child: child,
-        ),
-        super(key: key);
+        );
 
   /// A method that can be called by descendant Widgets to retrieve the bloc
   /// from the [BlocProvider].
@@ -112,14 +111,12 @@ class BlocProviders extends Providers {
   ///
   /// If [blocProviders] is empty, then [BlocProviders] just returns [child].
   BlocProviders({
-    Key? key,
+    super.key,
     required List<BlocProvider> blocProviders,
-    required Widget child,
+    required super.child,
   })  : assert(blocProviders.isNotEmpty),
         super(
-          key: key,
           providers:
               blocProviders.map((e) => e._provider).toList(growable: false),
-          child: child,
         );
 }

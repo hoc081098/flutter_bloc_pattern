@@ -1,7 +1,7 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
 
+import 'package:disposebag/disposebag.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -11,14 +11,14 @@ class Dependencies {
   var _i = 0;
 
   Dependencies() {
-    print('$this::init');
+    debugPrint('$this::init');
   }
 
   Future<String> loadSomething() =>
       Future.delayed(const Duration(milliseconds: 500), () => 'String ${_i++}');
 
   void dispose() {
-    print('$this::dispose');
+    debugPrint('$this::dispose');
   }
 }
 
@@ -34,21 +34,15 @@ class Bloc1 extends DisposeCallbackBaseBloc {
   }) : super(dispose);
 
   factory Bloc1(Dependencies dependencies) {
-    // ignore: close_sinks
     final loadS = StreamController<void>();
 
     final string$ = loadS.stream
         .switchMap((value) => Rx.fromCallable(dependencies.loadSomething))
         .cast<String?>()
         .publishState(null);
-    final connection = string$.connect();
 
     return Bloc1._(
-      dispose: () async {
-        await connection.cancel();
-        await loadS.close();
-        print('Bloc1::disposed');
-      },
+      dispose: DisposeBag([loadS, string$.connect()]).dispose,
       load: () => loadS.add(null),
       string$: string$,
     );
@@ -57,11 +51,11 @@ class Bloc1 extends DisposeCallbackBaseBloc {
 
 class Bloc2 implements BaseBloc {
   Bloc2(CounterBloc bloc) {
-    print('$this::init with counter bloc $bloc');
+    debugPrint('$this::init with counter bloc $bloc');
   }
 
   @override
   void dispose() {
-    print('$this::dispose');
+    debugPrint('$this::dispose');
   }
 }
