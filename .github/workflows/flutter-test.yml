@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2.6.1
+      - uses: subosito/flutter-action@v2.16.0
         with:
           channel: 'stable'
 
@@ -24,7 +24,7 @@ jobs:
         run: flutter packages get
       
       - name: Format
-        run: flutter format lib test example --set-exit-if-changed
+        run: dart format lib test example --set-exit-if-changed
       
       - name: Analyze
         run: flutter analyze lib test example
