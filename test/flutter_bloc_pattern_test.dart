@@ -51,7 +51,10 @@ void main() {
   group('Base and Error', () {
     test('Function types', () {
       // ignore: omit_local_variable_types
-      final VoidAction a = () {};
+      final VoidAction a1 = () {};
+
+      // ignore: omit_local_variable_types
+      final VoidFunc0 a2 = () {};
 
       // ignore: omit_local_variable_types
       final Func0<void> f0 = () {};
@@ -88,7 +91,7 @@ void main() {
       final Func9<int, String, double, int, List<int>, Map<int, int>, void,
           bool, bool, bool> f9 = (i, s, d, i2, li, map, _, b, b2) => b && b2;
 
-      [a, f0, f1, f2, f3, f4, f5, f6, f7, f8, f9].forEach(print);
+      [a1, a2, f0, f1, f2, f3, f4, f5, f6, f7, f8, f9].forEach(print);
     });
 
     test('DisposeCallbackBaseBloc', () {

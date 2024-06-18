@@ -7,7 +7,7 @@ abstract class BaseBloc {
 /// Base bloc that implements [BaseBloc.dispose] by passing callback to constructor,
 /// and call it when [BaseBloc.dispose] called.
 class DisposeCallbackBaseBloc implements BaseBloc {
-  final void Function() _dispose;
+  final VoidAction _dispose;
 
   /// Create a [DisposeCallbackBaseBloc] by a dispose callback.
   DisposeCallbackBaseBloc(this._dispose);
@@ -19,7 +19,12 @@ class DisposeCallbackBaseBloc implements BaseBloc {
 // Function types
 
 /// Represents a function that have no arguments and return no data.
+/// See also [VoidFunc0].
 typedef VoidAction = void Function();
+
+/// Represents a function that have no arguments and return no data.
+/// This is an alias of [VoidAction].
+typedef VoidFunc0 = VoidAction;
 
 /// Represents a function with zero arguments: `() -> R`.
 typedef Func0<R> = R Function();

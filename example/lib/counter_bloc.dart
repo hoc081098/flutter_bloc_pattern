@@ -12,7 +12,7 @@ class CounterBloc extends DisposeCallbackBaseBloc {
   final StateStream<int> state;
 
   CounterBloc._({
-    required void Function() dispose,
+    required VoidAction dispose,
     required this.increment,
     required this.state,
   }) : super(dispose);

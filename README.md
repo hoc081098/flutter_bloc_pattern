@@ -47,10 +47,12 @@ class MyBloc implements BaseBloc {
 
 ## Example: A port of the standard "Counter Button" example from Flutter
 
-### 1. File `counter_bloc.dart`:
+### 1. File `counter_bloc.dart`
+
 ```dart
 import 'dart:async';
 
+import 'package:disposebag/disposebag.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -62,41 +64,36 @@ class CounterBloc extends DisposeCallbackBaseBloc {
   final StateStream<int> state;
 
   CounterBloc._({
-    required void Function() dispose,
+    required VoidAction dispose,
     required this.increment,
     required this.state,
   }) : super(dispose);
 
   factory CounterBloc() {
-    // ignore: close_sinks
     final incrementController = StreamController<void>();
 
-    final state = incrementController.stream
+    final state$ = incrementController.stream
         .scan<int>((acc, _, __) => acc + 1, 0)
         .publishState(0);
-    final connection = state.connect();
 
     return CounterBloc._(
-      dispose: () async {
-        await connection.cancel();
-        await incrementController.close();
-        print('CounterBloc::disposed');
-      },
-      increment: () => incrementController.add(null),
-      state: state,
+      dispose: DisposeBag([incrementController, state$.connect()]).dispose,
+      increment: incrementController.addNull,
+      state: state$,
     );
   }
 }
 ```
 
-### 2. File `main.dart`:
+### 2. File `main.dart`
+
 ```dart
 import 'package:example/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 
 class TextCounter1 extends StatelessWidget {
-  const TextCounter1({Key? key}) : super(key: key);
+  const TextCounter1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +104,7 @@ class TextCounter1 extends StatelessWidget {
       builder: (context, state) {
         return Text(
           'COUNTER 1: $state',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         );
       },
     );
@@ -115,7 +112,7 @@ class TextCounter1 extends StatelessWidget {
 }
 
 class IncrementButton extends StatelessWidget {
-  const IncrementButton({Key? key}) : super(key: key);
+  const IncrementButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +121,8 @@ class IncrementButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: bloc.increment,
       tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
-
 ```

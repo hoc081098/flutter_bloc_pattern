@@ -28,7 +28,7 @@ class Bloc1 extends DisposeCallbackBaseBloc {
   final StateStream<String?> string$;
 
   Bloc1._({
-    required void Function() dispose,
+    required VoidAction dispose,
     required this.load,
     required this.string$,
   }) : super(dispose);
