@@ -11,35 +11,35 @@ Base class, BLoC provider and `rxdart` builder for BLoC pattern in Flutter.
 
 ## Getting Started
 
-### 1. Add this to your package's pubspec.yaml file:
+### 1. Add this to your package's pubspec.yaml file
 
 ```yaml
 dependencies:
   flutter_bloc_pattern: <latest_version>
 ```
 
-### 2. Now in your Dart code, you can use:
+### 2. Implements BaseBloc
 
 ```dart
+import 'package:disposebag/disposebag.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-```
+import 'package:rxdart_ext/rxdart_ext.dart';
 
-### 3. Implements BaseBloc:
-```dart
 class MyBloc implements BaseBloc {
-  Stream<String> get stream;
+  StateStream<String> get stream;
 
   @override
   void dispose() {}
 }
 ```
 
-### 4. Consume BLoC:
+### 3. Consume BLoC
+
 ```dart
  final bloc = BlocProvider.of<MyBloc>(context);
- return RxStreamBuilder(
+ return RxStreamBuilder<String>(
   stream: bloc.stream,
-  builder: (context, data) {
+  builder: (context, state) {
     return ...;
   },
 );
