@@ -1,3 +1,10 @@
+### 3.0.0 - Jun 18, 2024
+
+- Update dependencies:
+  - `rxdart_ext` to `^0.3.0`.
+- Change Flutter constraint to `'>=3.10.0'` (requires `Flutter 3.10` or later).
+- Change Dart SDK constraint to `'>=3.0.0 <4.0.0'` (requires `Dart 3.0` or later).
+
 ### 2.3.0 - Jun 3, 2022
 
 - Update `rxdart_ext` to `0.2.2`.
